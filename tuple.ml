@@ -6,3 +6,5 @@ let vector x y z = {x=x; y=y; z=z; w=0.0}
 
 let isVector tuple = (tuple.w = 0.0)
 let isPoint tuple = (tuple.w = 1.0)
+
+let addTuple a b = {x=a.x+.b.x; y=a.y+.b.y; z=a.z+.b.z; w=a.w+.b.w}
