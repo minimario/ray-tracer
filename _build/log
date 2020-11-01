@@ -1,0 +1,5 @@
+# dune ocaml-merlin --no-print-directory
+# OCAMLPARAM: unset
+# Workspace root: /home/minimario/Documents/ray_tracer
+$ /usr/bin/nproc > /tmp/dunefe46d9.output 2> /dev/null
+# Auto-detected concurrency: 8
