@@ -163,6 +163,14 @@ let tests = "Test Suite for Tuple" >::: [
         assert_bool "v2 x v1 failed" 
             (equalTuple (cross v2 v1) v2_cross_v1);
     );
+    "Color constructor" >::
+    (fun _ ->
+        let c = color (-0.5) 0.4 1.7 in
+	assert_equal c.red (-0.5);
+	assert_equal c.green 0.4;
+	assert_equal c.blue 1.7;
+
+    );
 ]
 
 let _ = run_test_tt_main tests
