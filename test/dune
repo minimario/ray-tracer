@@ -1,1 +1,1 @@
-(test (name tupletest) (libraries tuple oUnit))
+(test (name tupletest) (libraries rtlib oUnit))

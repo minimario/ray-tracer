@@ -1,5 +1,5 @@
 open OUnit2
-open Tuple
+open Rtlib.Tuple
 
 let tests = "Test Suite for Tuple" >::: [
     "A tuple with w=1.0 is a point" >:: 
