@@ -34,6 +34,13 @@ let tests = "Test Suite for Colors" >::: [
 	assert_bool "color multiplication incorrect"
 	    (equalColor (multiplyColor c1 c2) expected_product);
     );
+    "Scalar color multiplication" >::
+    (fun _ ->
+        let c1 = color 0.2 0.3 0.4 in
+	let expected_product = color 0.4 0.6 0.8 in
+	assert_bool "color scalar multiplication incorrect"
+	    (equalColor (multiplyColorScalar c1 2.) expected_product);
+    );
 ]
 
 let _ = run_test_tt_main tests
