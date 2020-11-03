@@ -31,13 +31,18 @@ let normalize v = divideTupleScalar v (magnitude v)
 let dot v1 v2 = v1.x*.v2.x+.v1.y*.v2.y+.v1.z*.v2.z+.v1.w*.v2.w
 let cross a b = vector (a.y*.b.z-.a.z*.b.y) (a.z*.b.x-.a.x*.b.z) (a.x*.b.y-.a.y*.b.x)
 
-(* option 1: type casting *)
+(* color can be treated as vector *)
 type color = {red:float; green:float; blue:float}
+
 let color r g b = {red=r; green=g; blue=b}
 let tuple_of_color color = vector color.red color.green color.blue
 let color_of_tuple tuple = {red=tuple.x; green=tuple.y; blue=tuple.z}
-let add a b = color_of_tuple (addTuple (tuple_of_color a) (tuple_of_color b))
 
-(* (* option 2: green c instead of c.green *)
-let color_2 red green blue = vector red green blue
-let green color = color.x *)
+(* equality *)
+let equalColor a b = equalTuple (tuple_of_color a) (tuple_of_color b)
+
+(* operations *)
+let addColor a b = color_of_tuple (addTuple (tuple_of_color a) (tuple_of_color b))
+let subtractColor a b = color_of_tuple (subtractTuple (tuple_of_color a) (tuple_of_color b))
+let hadamard_product a b = {red=a.red*.b.red; green=a.green*.b.green; blue=a.blue*.b.blue}
+let multiplyColor = hadamard_product
