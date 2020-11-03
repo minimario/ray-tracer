@@ -187,6 +187,13 @@ let tests = "Test Suite for Tuple" >::: [
 	assert_bool "color subtraction incorrect"
 	    (equalColor (subtractColor c1 c2) expected_diff);
     );
+    "Scalar color multiplication" >::
+    (fun _ ->
+        let c1 = color 0.2 0.3 0.4 in
+	let expected_product = color 0.4 0.6 0.8 in
+	assert_bool "color scalar multiplication incorrect"
+	    (equalColor (multiplyColorScalar c1 2.) expected_product);
+    );
     "Multiplying colors" >::
     (fun _ ->
         let c1 = color 1. 0.2 0.4 in

@@ -44,5 +44,6 @@ let equalColor a b = equalTuple (tuple_of_color a) (tuple_of_color b)
 (* operations *)
 let addColor a b = color_of_tuple (addTuple (tuple_of_color a) (tuple_of_color b))
 let subtractColor a b = color_of_tuple (subtractTuple (tuple_of_color a) (tuple_of_color b))
+let multiplyColorScalar a k = color_of_tuple (multiplyTupleScalar (tuple_of_color a) k)
 let hadamard_product a b = {red=a.red*.b.red; green=a.green*.b.green; blue=a.blue*.b.blue}
 let multiplyColor = hadamard_product
