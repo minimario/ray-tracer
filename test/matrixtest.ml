@@ -41,6 +41,60 @@ let tests = "Test Suite for Matrices" >::: [
 	assert_bool "position 1 1 incorrect" (equalFloat (matrix_get m 1 1) (-2.));
 	assert_bool "position 2 2 incorrect" (equalFloat (matrix_get m 2 2) 1.);
     );
+    "Comparing equal matrices" >::
+    (fun _ ->
+	let a = [|
+		[| 1.; 2.; 3.; 4. |];
+		[| 5.; 6.; 7.; 8. |];
+		[| 9.; 8.; 7.; 6. |];
+		[| 5.; 4.; 3.; 2. |]
+	|] in
+	let b = [|
+		[| 1.; 2.; 3.; 4. |];
+		[| 5.; 6.; 7.; 8. |];
+		[| 9.; 8.; 7.; 6. |];
+		[| 5.; 4.; 3.; 2. |]
+	|] in
+	assert_bool "equality of equal matrices incorrect" (equalMatrix a b);
+    );
+    "Comparing unequal matrices" >::
+    (fun _ ->
+	let a = [|
+		[| 1.; 2.; 3.; 4. |];
+		[| 5.; 6.; 7.; 8. |];
+		[| 9.; 8.; 7.; 6. |];
+		[| 5.; 4.; 3.; 2. |]
+	|] in
+	let b = [|
+		[| 2.; 3.; 4.; 5. |];
+		[| 6.; 7.; 8.; 9. |];
+		[| 8.; 7.; 6.; 5. |];
+		[| 4.; 3.; 2.; 1. |]
+	|] in
+	assert_bool "equality of different matrices incorrect" (not (equalMatrix a b));
+    );
+    "Multiplying square matrices" >::
+    (fun _ ->
+	let a = [|
+		[| 1.; 2.; 3.; 4. |];
+		[| 5.; 6.; 7.; 8. |];
+		[| 9.; 8.; 7.; 6. |];
+		[| 5.; 4.; 3.; 2. |]
+	|] in
+	let b = [|
+		[| (-2.); 1.; 2.; 3. |];
+		[| 3.; 2.; 1.; (-1.) |];
+		[| 4.; 3.; 6.; 5. |];
+		[| 1.; 2.; 7.; 8. |]
+	|] in
+	let c = [|
+		[| 20.; 22.; 50.; 48. |];
+		[| 44.; 54.; 114.; 108. |];
+		[| 40.; 58.; 110.; 102. |];
+		[| 16.; 26.; 46.; 42. |]
+	|] in
+	assert_bool "matrix multiplication incorrect" (equalMatrix (multiplyMatrix a b) c);
+    );
 ]
 
 let _ = run_test_tt_main tests
