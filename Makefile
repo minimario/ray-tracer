@@ -1,6 +1,13 @@
-TARGETS := projectile.byte tuple.byte color.byte canvas.byte
-TEST_TARGETS := test/tupletest.byte test/colortest.byte test/canvastest.byte test/matrixtest.byte
+TARGETS := src/projectile.byte src/tuple.byte src/color.byte src/canvas.byte src/transformations.byte src/clock.byte
+TEST_TARGETS := test/tupletest.byte test/colortest.byte test/canvastest.byte test/matrixtest.byte test/transformationstest.byte
 main:
+	ocamlbuild -use-ocamlfind $(TARGETS)
+
+clock:
+	ocamlbuild -use-ocamlfind $(TARGETS)
+	./clock.byte
+
+projectile:
 	ocamlbuild -use-ocamlfind $(TARGETS)
 	./projectile.byte
 
@@ -10,6 +17,7 @@ runtest:
 	./colortest.byte
 	./canvastest.byte
 	./matrixtest.byte
+	./transformationstest.byte
 
 clean:
 	rm *.byte

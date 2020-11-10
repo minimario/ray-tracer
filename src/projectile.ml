@@ -30,6 +30,6 @@ let () =
     let blankCanvas = createCanvas 400 300 in
     let canvas = sim blankCanvas (env, proj) in
     let ppm = canvasToPPM canvas in
-    let file = open_out "projectile.ppm" in
+    let file = open_out "images/projectile.ppm" in
     output_string file ppm;
     ()
