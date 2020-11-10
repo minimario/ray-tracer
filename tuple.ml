@@ -10,7 +10,7 @@ let isVector tuple = (tuple.w = 0.0)
 let isPoint tuple = (tuple.w = 1.0)
 
 (* checking for equality *)
-let epsilon = 0.000001
+let epsilon = 0.00001
 let equalFloat a b = ((Float.abs (a-.b)) < epsilon)
 let equalTuple a b =
     equalFloat a.x b.x && equalFloat a.y b.y &&
