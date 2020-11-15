@@ -124,7 +124,7 @@ let tests = "Test Suite for Matrices" >::: [
    		[|0.; 0.; 0.; 1.|] 
 	|] in
 	assert_bool "identity matrix failed" 
-		(equalMatrix (identity_matrix 4) a);
+		(equalMatrix identity_matrix a);
     );
 
     "Multiplying a matrix by the identity matrix" >::
@@ -135,7 +135,7 @@ let tests = "Test Suite for Matrices" >::: [
    		[|2.; 4.; 8.; 16.|];
    		[|4.; 8.; 16.; 32.|] 
 	|] in
-	let b = identity_matrix 4 in
+	let b = identity_matrix in
 	assert_bool "multiplication by identity failed" 
 		(equalMatrix (multiplyMatrix a b) a);
     );
@@ -143,7 +143,7 @@ let tests = "Test Suite for Matrices" >::: [
     "Multiplying the identity matrix by a tuple" >::
     (fun _ ->
 	let a = tuple 1. 2. 3. 4. in
-	let id = identity_matrix 4 in 
+	let id = identity_matrix in 
 	assert_bool "identity tuple multiplication incorrect" 
 		(equalTuple (multiplyMatrixTuple id a) a)
     );
@@ -164,7 +164,7 @@ let tests = "Test Suite for Matrices" >::: [
 	|] in
 	assert_bool "matrix transpose incorrect" (equalMatrix (transpose a) b);
 	assert_bool "identity transposition incorrect"
-		(equalMatrix (identity_matrix 4) (transpose (identity_matrix 4)))
+		(equalMatrix identity_matrix (transpose identity_matrix))
 	);	
 
 	"Determinant of 2d matrix" >::

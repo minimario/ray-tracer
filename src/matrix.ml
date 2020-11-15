@@ -1,6 +1,6 @@
 open Tuple
 
-type matrix = Array
+type matrix = float array array
 let matrix_of_list list = Array.of_list list (* untested *)
 let matrix_get m row col = m.(row).(col)
 
@@ -39,10 +39,12 @@ let multiplyMatrix a b =  (* unimplemented *)
 
 let multiplyMatrixTuple m t = tuple_of_matrix (multiplyMatrix m (matrix_of_tuple t))
 
-let identity_matrix n = (* rename to identity? *)
+let make_identity_matrix n = (* rename to identity? *)
     Array.init n (fun r ->
         Array.init n (fun c -> if r = c then 1. else 0.)
     )
+
+let identity_matrix = make_identity_matrix 4
 
 let transpose matrix = 
     Array.mapi 
