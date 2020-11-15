@@ -5,7 +5,8 @@ TARGETS := src/projectile.byte \
 		   src/transformations.byte \
 		   src/clock.byte \
 		   src/rays.byte \
-		   src/intersections.byte
+		   src/intersections.byte \
+		   src/sphere.byte
 
 TEST_TARGETS := test/tupletest.byte \
 				test/colortest.byte \

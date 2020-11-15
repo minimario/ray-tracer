@@ -5,6 +5,7 @@ open Tuple
 open Transformations
 open Matrix
 open Intersections
+open Sphere
 let tests = "Test Suite for Rays" >::: [
     "Creating and querying a ray" >::
     (fun _ ->
@@ -207,28 +208,29 @@ let tests = "Test Suite for Rays" >::: [
     (fun _ ->
     let s = sphere in 
     let t = translation 2. 3. 4. in
-    let s' = set_transform s t in 
-    assert_equal (s'.transform) (t)
+    let _ = set_transform s t in 
+    assert_equal (s.transform) (t)
     );
 
     "Intersecting a scaled sphere with a ray" >::
     (fun _ ->
     let r = {origin=point 0. 0. (-5.); direction=vector 0. 0. 1.} in 
     let s = sphere in 
-    let s' = set_transform s (scaling 2. 2. 2.) in 
-    let xs = intersect s' r in 
+    let _ = set_transform s (scaling 2. 2. 2.) in 
+    let xs = intersect s r in 
     assert_equal (List.length xs) 2;
     assert_equal (List.hd xs).t 3.;
-    assert_equal (List.hd (List.tl xs)).t 7.
+    assert_equal (List.hd (List.tl xs)).t 7.;
+    assert ((List.hd (List.tl xs)).intersectionObject == s)
     );
 
     "Intersecting a translated sphere with a ray" >::
     (fun _ ->
     let r = {origin=point 0. 0. (-5.); direction=vector 0. 0. 1.} in 
     let s = sphere in 
-    let s' = set_transform s (translation 5. 0. 0.) in 
-    let xs = intersect s' r in 
-    assert_equal (List.length xs) 0
+    let _ = set_transform s (translation 5. 0. 0.) in 
+    let xs = intersect s r in 
+    assert_equal (List.length xs) 0;
     );
 ]
 

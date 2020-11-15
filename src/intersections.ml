@@ -1,13 +1,7 @@
 open Matrix
 open Rays
 open Tuple
-
-type object_type = Sphere (* add other types later *)
-type shape = {shapeType: object_type; transform: matrix}
-let sphere = {shapeType = Sphere; transform = identity_matrix}
-let set_transform {shapeType; transform} new_transform = 
-    {shapeType; transform=new_transform}
-
+open Sphere
 
 type intersection = {t: float; intersectionObject: shape}
 let intersection t intersectionObject = {t; intersectionObject}
@@ -24,7 +18,7 @@ let hit intersectionList  =
     match sortedIntersections with 
     | [] -> None
     | _ -> Some (List.hd sortedIntersections)
-    
+
 let intersect sphere ray = 
     let {origin; direction} = transform ray (inverse sphere.transform) in
     let sphere_to_ray = subtractTuple origin (point 0. 0. 0.) in 
