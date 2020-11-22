@@ -13,7 +13,8 @@ TEST_TARGETS := test/tupletest.byte \
 				test/canvastest.byte \
 				test/matrixtest.byte \
 				test/transformationstest.byte \
-				test/raystest.byte
+				test/raystest.byte \
+				test/spheretest.byte
 
 main:
 	ocamlbuild -use-ocamlfind $(TARGETS)
@@ -38,6 +39,7 @@ runtest:
 	./matrixtest.byte
 	./transformationstest.byte
 	./raystest.byte
+	./spheretest.byte
 
 clean:
 	rm *.byte
