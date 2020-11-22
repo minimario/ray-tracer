@@ -14,7 +14,7 @@ TEST_TARGETS := test/tupletest.byte \
 				test/matrixtest.byte \
 				test/transformationstest.byte \
 				test/raystest.byte
-				
+
 main:
 	ocamlbuild -use-ocamlfind $(TARGETS)
 
@@ -25,6 +25,10 @@ clock:
 projectile:
 	ocamlbuild -use-ocamlfind $(TARGETS)
 	./projectile.byte
+
+silhouette:
+	ocamlbuild -use-ocamlfind src/silhouette.byte
+	./silhouette.byte
 
 runtest:
 	ocamlbuild -I src -use-ocamlfind $(TARGETS) $(TEST_TARGETS)
