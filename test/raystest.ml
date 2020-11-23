@@ -170,7 +170,6 @@ let tests = "Test Suite for Rays" >::: [
     let i4 = intersection 2. s in
     let xs = [i1; i2; i3; i4] in 
     let i = hit xs in 
-    let i = hit xs in 
     match i with 
     | Some i' -> assert_bool "hit wrong" (i' == i4)
     | _ -> assert_bool "hit wrong" false

@@ -6,7 +6,8 @@ TARGETS := src/projectile.byte \
 		   src/clock.byte \
 		   src/rays.byte \
 		   src/intersections.byte \
-		   src/sphere.byte
+		   src/sphere.byte \
+		   src/reflection.byte
 
 TEST_TARGETS := test/tupletest.byte \
 				test/colortest.byte \
@@ -14,7 +15,8 @@ TEST_TARGETS := test/tupletest.byte \
 				test/matrixtest.byte \
 				test/transformationstest.byte \
 				test/raystest.byte \
-				test/spheretest.byte
+				test/spheretest.byte \
+				test/reflectiontest.byte
 
 main:
 	ocamlbuild -use-ocamlfind $(TARGETS)
@@ -40,6 +42,7 @@ runtest:
 	./transformationstest.byte
 	./raystest.byte
 	./spheretest.byte
+	./reflectiontest.byte
 
 clean:
 	rm *.byte
