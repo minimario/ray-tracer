@@ -3,6 +3,7 @@ open Tuple
 open Matrix
 open Transformations
 
+let equalTuple = Tuple.equals
 let tests = "Test Suite for Transformations" >::: [
     "Multiplying by a translation matrix" >::
     (fun _ ->

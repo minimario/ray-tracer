@@ -6,6 +6,8 @@ open Transformations
 open Matrix
 open Intersections
 open Sphere
+
+let equalTuple = Tuple.equals
 let tests = "Test Suite for Spheres" >::: [
     "Computing a normal on a sphere at a point on the x axis" >::
     (fun _ ->

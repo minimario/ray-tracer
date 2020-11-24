@@ -2,6 +2,7 @@ open OUnit2
 open Tuple
 open Matrix
 
+let equalTuple = Tuple.equals
 let tests = "Test Suite for Matrices" >::: [
     "Constructing 4x4 matrix" >::
     (fun _ ->

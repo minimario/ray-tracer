@@ -3,6 +3,8 @@ open Tuple
 open OUnit2
 open Color
 open Sphere
+
+let equalTuple = Tuple.equals
 let tests = "Test Suite for Reflections" >::: [
     "Reflecting a vector approaching at 45 degrees" >::
     (fun _ ->

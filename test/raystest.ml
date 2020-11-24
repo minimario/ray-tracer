@@ -6,6 +6,8 @@ open Transformations
 open Matrix
 open Intersections
 open Sphere
+
+let equalTuple = Tuple.equals
 let tests = "Test Suite for Rays" >::: [
     "Creating and querying a ray" >::
     (fun _ ->

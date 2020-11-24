@@ -21,7 +21,7 @@ let hit intersectionList  =
 
 let intersect sphere ray = 
     let {origin; direction} = transform ray (inverse sphere.transform) in
-    let sphere_to_ray = subtractTuple origin (point 0. 0. 0.) in 
+    let sphere_to_ray = Tuple.subtract origin (point 0. 0. 0.) in 
     let a = dot direction direction in 
     let b = 2. *. dot direction sphere_to_ray in 
     let c = dot sphere_to_ray sphere_to_ray -. 1. in 

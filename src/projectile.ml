@@ -1,12 +1,11 @@
-open Tuple
 open Canvas
 
-type projectile = {pos: tuple; vel: tuple}
-type environment = {grav: tuple; wind: tuple}
+type projectile = {pos: Tuple.tuple; vel: Tuple.tuple}
+type environment = {grav: Tuple.tuple; wind: Tuple.tuple}
 
 let tick {grav; wind} {pos; vel} = 
-    let pos' = addTuple pos vel in
-    let vel' = addTuple (addTuple vel grav) wind in 
+    let pos' = Tuple.add pos vel in
+    let vel' = Tuple.add (Tuple.add vel grav) wind in 
     {pos=pos'; vel=vel'}
 
 let rec sim canvas (env, {pos; vel}) =
@@ -23,8 +22,8 @@ let rec sim canvas (env, {pos; vel}) =
         sim canvas (env, tick env {pos; vel}) (* any equivalent of Haskell @ in OCaml? *)
     end
 
-let env = {grav = (vector 0. (-0.1) 0.); wind = (vector (-0.01) 0. 0.)}
-let proj = {pos = point 0. 1. 0.; vel = vector 3. 7. 0.}
+let env = {grav = (Tuple.vector 0. (-0.1) 0.); wind = (Tuple.vector (-0.01) 0. 0.)}
+let proj = {pos = Tuple.point 0. 1. 0.; vel = Tuple.vector 3. 7. 0.}
 
 let () =
     let blankCanvas = createCanvas 400 300 in
