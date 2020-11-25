@@ -12,9 +12,9 @@ let pixel_at canvas x y = canvas.pixels.(y).(x)
 let round f = int_of_float (floor (f +. 0.5))
 
 let rec row_to_string row i = 
-    let currentPixelString = Color.to_string row.(i) in 
-    if (i = Array.length row - 1) then currentPixelString 
-    else (if (i mod 5 = 4) then currentPixelString ^ "\n" ^ row_to_string row (i+1)
+    let current_pixel_string = Color.to_string row.(i) in 
+    if (i = Array.length row - 1) then current_pixel_string 
+    else (if (i mod 5 = 4) then current_pixel_string ^ "\n" ^ row_to_string row (i+1)
           else Color.to_string row.(i) ^ " " ^ row_to_string row (i+1))
 
 let canvas_to_string canvas = 

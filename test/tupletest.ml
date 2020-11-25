@@ -8,8 +8,8 @@ let tests = "Test Suite for Tuple" >::: [
         assert_equal a.y (-4.2);
         assert_equal a.z 3.1;
         assert_equal a.w 1.0;
-        assert_bool "a should be a point" (Tuple.isPoint a);
-        assert_bool "a should not be a vector" (not (Tuple.isVector a))
+        assert_bool "a should be a point" (Tuple.is_point a);
+        assert_bool "a should not be a vector" (not (Tuple.is_vector a))
     );
     "A tuple with w=0.0 is a point" >:: 
     (fun _ -> 
@@ -18,8 +18,8 @@ let tests = "Test Suite for Tuple" >::: [
         assert_equal a.y (-4.2);
         assert_equal a.z 3.1;
         assert_equal a.w 0.0;
-        assert_bool "a should not be a point" (not (Tuple.isPoint a));
-        assert_bool "a should be a vector"  (Tuple.isVector a)
+        assert_bool "a should not be a point" (not (Tuple.is_point a));
+        assert_bool "a should be a vector"  (Tuple.is_vector a)
     );
     "point() creates tuples with w=1" >::
     (fun _ ->

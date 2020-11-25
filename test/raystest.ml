@@ -40,9 +40,9 @@ let tests = "Test Suite for Rays" >::: [
     let xs = intersect s r in
     assert_equal (List.length xs) 2;
     assert_bool "xs[0] shape wrong"
-        ((List.hd xs).intersectionObject == s);
+        ((List.hd xs).intersection_object == s);
     assert_bool "xs[1] shape wrong"
-        ((List.hd (List.tl xs)).intersectionObject == s);
+        ((List.hd (List.tl xs)).intersection_object == s);
     assert_bool "xs[0] wrong" 
         (float_equals (List.hd xs).t 4.);
     assert_bool "xs[1] wrong" 
@@ -56,9 +56,9 @@ let tests = "Test Suite for Rays" >::: [
     let xs = intersect s r in
     assert_equal (List.length xs) 2;
     assert_bool "xs[0] shape wrong"
-        ((List.hd xs).intersectionObject == s);
+        ((List.hd xs).intersection_object == s);
     assert_bool "xs[1] shape wrong"
-        ((List.hd (List.tl xs)).intersectionObject == s);
+        ((List.hd (List.tl xs)).intersection_object == s);
     assert_bool "xs[0] wrong" 
         (float_equals (List.hd xs).t 5.);
     assert_bool "xs[1] wrong" 
@@ -80,9 +80,9 @@ let tests = "Test Suite for Rays" >::: [
     let xs = intersect s r in
     assert_equal (List.length xs) 2;
     assert_bool "xs[0] shape wrong"
-        ((List.hd xs).intersectionObject == s);
+        ((List.hd xs).intersection_object == s);
     assert_bool "xs[1] shape wrong"
-        ((List.hd (List.tl xs)).intersectionObject == s);
+        ((List.hd (List.tl xs)).intersection_object == s);
     assert_bool "xs[0] wrong" 
         (float_equals (List.hd xs).t (-1.));
     assert_bool "xs[1] wrong" 
@@ -96,9 +96,9 @@ let tests = "Test Suite for Rays" >::: [
     let xs = intersect s r in
     assert_equal (List.length xs) 2;
     assert_bool "xs[0] shape wrong"
-        ((List.hd xs).intersectionObject == s);
+        ((List.hd xs).intersection_object == s);
     assert_bool "xs[1] shape wrong"
-        ((List.hd (List.tl xs)).intersectionObject == s);
+        ((List.hd (List.tl xs)).intersection_object == s);
     assert_bool "xs[0] wrong" 
         (float_equals (List.hd xs).t (-6.));
     assert_bool "xs[1] wrong" 
@@ -111,8 +111,8 @@ let tests = "Test Suite for Rays" >::: [
     let i = intersection 3.5 s in
     assert_bool "i.t wrong" 
         (float_equals i.t (3.5));
-    assert_bool "i.intersectionObject wrong"
-        (i.intersectionObject == s)
+    assert_bool "i.intersection_object wrong"
+        (i.intersection_object == s)
     );
 
     "Aggregating intersections" >::
@@ -222,7 +222,7 @@ let tests = "Test Suite for Rays" >::: [
     assert_equal (List.length xs) 2;
     assert_equal (List.hd xs).t 3.;
     assert_equal (List.hd (List.tl xs)).t 7.;
-    assert ((List.hd (List.tl xs)).intersectionObject == s)
+    assert ((List.hd (List.tl xs)).intersection_object == s)
     );
 
     "Intersecting a translated sphere with a ray" >::

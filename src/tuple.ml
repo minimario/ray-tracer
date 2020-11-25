@@ -6,8 +6,8 @@ let point x y z = {x=x; y=y; z=z; w=1.0}
 let vector x y z = {x=x; y=y; z=z; w=0.0}
 
 (* checking type of a tuple *)
-let isVector tuple = (tuple.w = 0.0)
-let isPoint tuple = (tuple.w = 1.0)
+let is_vector tuple = (tuple.w = 0.0)
+let is_point tuple = (tuple.w = 1.0)
 
 (* checking for equality *)
 let epsilon = 0.00001
