@@ -5,7 +5,7 @@ open Canvas
 
 (* takes integer 0 to 11 and returns the point *)
 let pos i = 
-    multiplyMatrixTuple (rotation_z ((float_of_int i) *. Float.pi/.6.)) (point 1. 0. 0.)
+    Matrix.multiply_tuple (rotation_z ((float_of_int i) *. Float.pi/.6.)) (point 1. 0. 0.)
 
 let rec draw canvas time =
     if (time = 12) then canvas
@@ -19,15 +19,15 @@ let rec draw canvas time =
     begin
         (* Printf.printf "Clock position: (%f, %f)\n" x y; *)
         (* Printf.printf "Canvas position: (%d, %d)\n" canvas_x canvas_y; *)
-        if inBounds then write_pixel canvas canvas_x canvas_y red 
+        if inBounds then write_pixel canvas canvas_x canvas_y Color.red 
         else raise (Failure "writing out of bounds");
         draw canvas (time+1)
     end
 
 let () =
-    let blankCanvas = createCanvas 120 120 in
+    let blankCanvas = create_canvas 120 120 in
     let canvas = draw blankCanvas 0 in
-    let ppm = canvasToPPM canvas in
+    let ppm = canvas_to_ppm canvas in
     let file = open_out "images/clock.ppm" in
     Printf.printf "Clock drawn!\n";
     output_string file ppm;

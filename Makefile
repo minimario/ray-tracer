@@ -1,9 +1,7 @@
-TARGETS := src/projectile.byte \
-		   src/tuple.byte \
+TARGETS := src/tuple.byte \
 		   src/color.byte \
 		   src/canvas.byte \
 		   src/transformations.byte \
-		   src/clock.byte \
 		   src/rays.byte \
 		   src/intersections.byte \
 		   src/sphere.byte \
@@ -18,19 +16,25 @@ TEST_TARGETS := test/tupletest.byte \
 				test/spheretest.byte \
 				test/reflectiontest.byte
 
+PROJECT_TARGETS := projects/projectile.byte \
+				   projects/clock.byte \
+				   projects/silhouette.byte \
+
 main:
 	ocamlbuild -use-ocamlfind $(TARGETS)
+	ocamlbuild -I src -use-ocamlfind $(TARGETS) $(TEST_TARGETS)
+	ocamlbuild -I src -use-ocamlfind $(TARGETS) $(PROJECT_TARGETS)
 
 clock:
-	ocamlbuild -use-ocamlfind $(TARGETS)
+	ocamlbuild -I src -use-ocamlfind $(TARGETS) $(PROJECT_TARGETS)
 	./clock.byte
 
 projectile:
-	ocamlbuild -use-ocamlfind $(TARGETS)
+	ocamlbuild -I src -use-ocamlfind $(TARGETS) $(PROJECT_TARGETS)
 	./projectile.byte
 
 silhouette:
-	ocamlbuild -use-ocamlfind src/silhouette.byte
+	ocamlbuild -I src -use-ocamlfind $(TARGETS) $(PROJECT_TARGETS)
 	./silhouette.byte
 
 runtest:

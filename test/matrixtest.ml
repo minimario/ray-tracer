@@ -12,13 +12,13 @@ let tests = "Test Suite for Matrices" >::: [
 		[| 9.; 10.; 11.; 12. |];
 		[| 13.5; 14.5; 15.5; 16.5 |]
 	|] in
-	assert_bool "position 0 0 incorrect" (equalFloat (matrix_get m 0 0) 1.);
-	assert_bool "position 0 3 incorrect" (equalFloat (matrix_get m 0 3) 4.);
-	assert_bool "position 1 0 incorrect" (equalFloat (matrix_get m 1 0) 5.5);
-	assert_bool "position 1 2 incorrect" (equalFloat (matrix_get m 1 2) 7.5);
-	assert_bool "position 2 2 incorrect" (equalFloat (matrix_get m 2 2) 11.);
-	assert_bool "position 3 0 incorrect" (equalFloat (matrix_get m 3 0) 13.5);
-	assert_bool "position 3 2 incorrect" (equalFloat (matrix_get m 3 2) 15.5);
+	assert_bool "position 0 0 incorrect" (float_equals (Matrix.get m 0 0) 1.);
+	assert_bool "position 0 3 incorrect" (float_equals (Matrix.get m 0 3) 4.);
+	assert_bool "position 1 0 incorrect" (float_equals (Matrix.get m 1 0) 5.5);
+	assert_bool "position 1 2 incorrect" (float_equals (Matrix.get m 1 2) 7.5);
+	assert_bool "position 2 2 incorrect" (float_equals (Matrix.get m 2 2) 11.);
+	assert_bool "position 3 0 incorrect" (float_equals (Matrix.get m 3 0) 13.5);
+	assert_bool "position 3 2 incorrect" (float_equals (Matrix.get m 3 2) 15.5);
     );
 
     "Constructing 2x2 matrix" >::
@@ -27,10 +27,10 @@ let tests = "Test Suite for Matrices" >::: [
 		[| (-3.); 5. |];
 		[| 1.; (-2.) |]
 	|] in
-	assert_bool "position 0 0 incorrect" (equalFloat (matrix_get m 0 0) (-3.));
-	assert_bool "position 0 1 incorrect" (equalFloat (matrix_get m 0 1) 5.);
-	assert_bool "position 1 0 incorrect" (equalFloat (matrix_get m 1 0) 1.);
-	assert_bool "position 1 1 incorrect" (equalFloat (matrix_get m 1 1) (-2.));
+	assert_bool "position 0 0 incorrect" (float_equals (Matrix.get m 0 0) (-3.));
+	assert_bool "position 0 1 incorrect" (float_equals (Matrix.get m 0 1) 5.);
+	assert_bool "position 1 0 incorrect" (float_equals (Matrix.get m 1 0) 1.);
+	assert_bool "position 1 1 incorrect" (float_equals (Matrix.get m 1 1) (-2.));
     );
 
     "Constructing 3x3 matrix" >::
@@ -40,9 +40,9 @@ let tests = "Test Suite for Matrices" >::: [
 		[| 1.; (-2.); (-7.); |];
 		[| 0.; 1.; 1.; |]
 	|] in
-	assert_bool "position 0 0 incorrect" (equalFloat (matrix_get m 0 0) (-3.));
-	assert_bool "position 1 1 incorrect" (equalFloat (matrix_get m 1 1) (-2.));
-	assert_bool "position 2 2 incorrect" (equalFloat (matrix_get m 2 2) 1.);
+	assert_bool "position 0 0 incorrect" (float_equals (Matrix.get m 0 0) (-3.));
+	assert_bool "position 1 1 incorrect" (float_equals (Matrix.get m 1 1) (-2.));
+	assert_bool "position 2 2 incorrect" (float_equals (Matrix.get m 2 2) 1.);
     );
 
     "Comparing equal matrices" >::
@@ -59,7 +59,7 @@ let tests = "Test Suite for Matrices" >::: [
 		[| 9.; 8.; 7.; 6. |];
 		[| 5.; 4.; 3.; 2. |]
 	|] in
-	assert_bool "equality of equal matrices incorrect" (equalMatrix a b);
+	assert_bool "equality of equal matrices incorrect" (Matrix.equals a b);
     );
 
     "Comparing unequal matrices" >::
@@ -76,7 +76,7 @@ let tests = "Test Suite for Matrices" >::: [
 		[| 8.; 7.; 6.; 5. |];
 		[| 4.; 3.; 2.; 1. |]
 	|] in
-	assert_bool "equality of different matrices incorrect" (not (equalMatrix a b));
+	assert_bool "equality of different matrices incorrect" (not (Matrix.equals a b));
     );
 
     "Multiplying square matrices" >::
@@ -99,7 +99,7 @@ let tests = "Test Suite for Matrices" >::: [
 		[| 40.; 58.; 110.; 102. |];
 		[| 16.; 26.; 46.; 42. |]
 	|] in
-	assert_bool "matrix multiplication incorrect" (equalMatrix (multiplyMatrix a b) c);
+	assert_bool "matrix multiplication incorrect" (Matrix.equals (Matrix.multiply a b) c);
     );
 
     "A matrix multiplied by a tuple" >::
@@ -113,7 +113,7 @@ let tests = "Test Suite for Matrices" >::: [
 	let b = tuple 1. 2. 3. 1. in
 	let c = tuple 18. 24. 33. 1. in
 	assert_bool "matrix multiplication incorrect" 
-		(equalTuple (multiplyMatrixTuple a b) c)
+		(equalTuple (Matrix.multiply_tuple a b) c)
     );
 
     "Identity matrix sanity check" >::
@@ -125,7 +125,7 @@ let tests = "Test Suite for Matrices" >::: [
    		[|0.; 0.; 0.; 1.|] 
 	|] in
 	assert_bool "identity matrix failed" 
-		(equalMatrix identity_matrix a);
+		(Matrix.equals identity_matrix a);
     );
 
     "Multiplying a matrix by the identity matrix" >::
@@ -138,7 +138,7 @@ let tests = "Test Suite for Matrices" >::: [
 	|] in
 	let b = identity_matrix in
 	assert_bool "multiplication by identity failed" 
-		(equalMatrix (multiplyMatrix a b) a);
+		(Matrix.equals (Matrix.multiply a b) a);
     );
 
     "Multiplying the identity matrix by a tuple" >::
@@ -146,7 +146,7 @@ let tests = "Test Suite for Matrices" >::: [
 	let a = tuple 1. 2. 3. 4. in
 	let id = identity_matrix in 
 	assert_bool "identity tuple multiplication incorrect" 
-		(equalTuple (multiplyMatrixTuple id a) a)
+		(equalTuple (Matrix.multiply_tuple id a) a)
     );
 	
 	"Transposing a matrix" >::
@@ -163,9 +163,9 @@ let tests = "Test Suite for Matrices" >::: [
    		[|3.; 0.; 5.; 5.|];
    		[|0.; 8.; 3.; 8.|]
 	|] in
-	assert_bool "matrix transpose incorrect" (equalMatrix (transpose a) b);
+	assert_bool "matrix transpose incorrect" (Matrix.equals (transpose a) b);
 	assert_bool "identity transposition incorrect"
-		(equalMatrix identity_matrix (transpose identity_matrix))
+		(Matrix.equals identity_matrix (transpose identity_matrix))
 	);	
 
 	"Determinant of 2d matrix" >::
@@ -174,7 +174,7 @@ let tests = "Test Suite for Matrices" >::: [
 		[| 1.; 5. |];
 		[| (-3.); 2. |] 
 	|] in
-	assert_bool "2d determinant incorrect" (equalFloat (determinant_2d a) 17.)
+	assert_bool "2d determinant incorrect" (float_equals (determinant_2d a) 17.)
 	);
 
 	"Submatrix of 3x3" >::
@@ -188,7 +188,7 @@ let tests = "Test Suite for Matrices" >::: [
 		[| (-3.); 2. |];
 		[| 	  0.; 6. |]
 	|] in
-	assert_bool "3x3 submatrix incorrect" (equalMatrix (submatrix a 0 2) b)
+	assert_bool "3x3 submatrix incorrect" (Matrix.equals (submatrix a 0 2) b)
 	);
 
 	"Submatrix of 4x4" >::
@@ -204,7 +204,7 @@ let tests = "Test Suite for Matrices" >::: [
 		[| (-8.);    8.; 6. |];
 		[| (-7.); (-1.); 1. |]
 	|] in
-	assert_bool "4x4 submatrix incorrect" (equalMatrix (submatrix a 2 1) b)
+	assert_bool "4x4 submatrix incorrect" (Matrix.equals (submatrix a 2 1) b)
 	);
 
 	"Minor of 3x3 matrix" >::
@@ -215,8 +215,8 @@ let tests = "Test Suite for Matrices" >::: [
 		[| 6.; (-1.);    5. |]
 	|] in
 	let b = submatrix a 1 0 in 
-	assert_bool "minor incorrect" (equalFloat (minor a 1 0) 25.);
-	assert_bool "determinant of submatrix incorrect" (equalFloat (determinant b) 25.)
+	assert_bool "minor incorrect" (float_equals (minor a 1 0) 25.);
+	assert_bool "determinant of submatrix incorrect" (float_equals (determinant b) 25.)
 	);
 
 	"Cofactor of 3x3 matrix" >::
@@ -226,10 +226,10 @@ let tests = "Test Suite for Matrices" >::: [
 		[| 2.; -1.; -7. |];
 		[| 6.; -1.;  5. |]
 	|] in
-	assert_bool "minor 0 incorrect" (equalFloat (minor a 0 0) (-12.));
-	assert_bool "minor 1 incorrect" (equalFloat (minor a 1 0) 25.);
-	assert_bool "cofactor 0 incorrect" (equalFloat (cofactor a 0 0) (-12.));
-	assert_bool "cofactor 1 incorrect" (equalFloat (cofactor a 1 0) (-25.))
+	assert_bool "minor 0 incorrect" (float_equals (minor a 0 0) (-12.));
+	assert_bool "minor 1 incorrect" (float_equals (minor a 1 0) 25.);
+	assert_bool "cofactor 0 incorrect" (float_equals (cofactor a 0 0) (-12.));
+	assert_bool "cofactor 1 incorrect" (float_equals (cofactor a 1 0) (-25.))
 	);
 
     "Determinant of a 3x3 matrix" >::
@@ -239,10 +239,10 @@ let tests = "Test Suite for Matrices" >::: [
         [| -5.; 8.; -4. |];
         [|  2.; 6.;  4. |] 
 	|] in
-	assert_bool "cofactor 0 incorrect" (equalFloat (cofactor a 0 0) (56.));
-    assert_bool "cofactor 1 incorrect" (equalFloat (cofactor a 0 1) (12.));
-    assert_bool "cofactor 2 incorrect" (equalFloat (cofactor a 0 2) (-46.));
-    assert_bool "determinant incorrect" (equalFloat (determinant a) (-196.))
+	assert_bool "cofactor 0 incorrect" (float_equals (cofactor a 0 0) (56.));
+    assert_bool "cofactor 1 incorrect" (float_equals (cofactor a 0 1) (12.));
+    assert_bool "cofactor 2 incorrect" (float_equals (cofactor a 0 2) (-46.));
+    assert_bool "determinant incorrect" (float_equals (determinant a) (-196.))
 	);
 
     "Determinant of a 4x4 matrix" >::
@@ -253,11 +253,11 @@ let tests = "Test Suite for Matrices" >::: [
 		[|  1.;  2.; -9.; 6. |];
 		[| -6.;  7.;  7.; -9. |]
 	|] in
-	assert_bool "cofactor 0 incorrect" (equalFloat (cofactor a 0 0) (690.));
-    assert_bool "cofactor 1 incorrect" (equalFloat (cofactor a 0 1) (447.));
-    assert_bool "cofactor 2 incorrect" (equalFloat (cofactor a 0 2) (210.));
-    assert_bool "cofactor 3 incorrect" (equalFloat (cofactor a 0 3) (51.));
-	assert_bool "determinant incorrect" (equalFloat (determinant a) (-4071.))
+	assert_bool "cofactor 0 incorrect" (float_equals (cofactor a 0 0) (690.));
+    assert_bool "cofactor 1 incorrect" (float_equals (cofactor a 0 1) (447.));
+    assert_bool "cofactor 2 incorrect" (float_equals (cofactor a 0 2) (210.));
+    assert_bool "cofactor 3 incorrect" (float_equals (cofactor a 0 3) (51.));
+	assert_bool "determinant incorrect" (float_equals (determinant a) (-4071.))
 	);
 
     "Testing an invertible matrix for invertibility" >::
@@ -268,7 +268,7 @@ let tests = "Test Suite for Matrices" >::: [
         [| 4.; -9.; 3.; -7. |];
         [| 9.;  1.; 7.; -6. |]
 	|] in
-		assert_bool "determinant incorrect" (equalFloat (determinant a) (-2120.));
+		assert_bool "determinant incorrect" (float_equals (determinant a) (-2120.));
 		assert_bool "invertibility wrong" (invertible a)
 	);
 
@@ -280,7 +280,7 @@ let tests = "Test Suite for Matrices" >::: [
 		[|  0.; -5.;  1.; -5. |];
 		[|  0.;  0.;  0.;  0. |]
 	|] in
-		assert_bool "determinant incorrect" (equalFloat (determinant a) (0.));
+		assert_bool "determinant incorrect" (float_equals (determinant a) (0.));
 		assert_bool "invertibility wrong" (not (invertible a))
 	);
 
@@ -298,7 +298,7 @@ let tests = "Test Suite for Matrices" >::: [
     	[| -0.07895; -0.22368; -0.05263;  0.19737 |];
     	[| -0.52256; -0.81391; -0.30075;  0.30639 |]
 	|] in
-		assert_bool "inverse wrong" (equalMatrix (inverse a) b)
+		assert_bool "inverse wrong" (Matrix.equals (inverse a) b)
 	);
 
     "Calculating the inverse of a matrix 2" >::
@@ -315,7 +315,7 @@ let tests = "Test Suite for Matrices" >::: [
 		[|  0.35897;  0.35897;  0.43590;  0.92308 |];
 		[| -0.69231; -0.69231; -0.76923; -1.92308 |]
 	|] in
-		assert_bool "inverse wrong" (equalMatrix (inverse a) b)
+		assert_bool "inverse wrong" (Matrix.equals (inverse a) b)
 	);
 
     "Calculating the inverse of a matrix 3" >::
@@ -332,7 +332,7 @@ let tests = "Test Suite for Matrices" >::: [
 		[| -0.02901; -0.14630; -0.10926;  0.12963 |];
 		[|  0.17778;  0.06667; -0.26667;  0.33333 |]
 	|] in
-		assert_bool "inverse wrong" (equalMatrix (inverse a) b)
+		assert_bool "inverse wrong" (Matrix.equals (inverse a) b)
 	);
 
 	"Multiplying a product by its inverse" >::
@@ -349,9 +349,9 @@ let tests = "Test Suite for Matrices" >::: [
 		[| 7.;  0.; 5.; 4. |];
 		[| 6.; -2.; 0.; 5. |]
 	|] in
-    let c = multiplyMatrix a b in
+    let c = Matrix.multiply a b in
 	assert_bool "multiplying product by inverse wrong"
-		(equalMatrix (multiplyMatrix c (inverse b)) a)
+		(Matrix.equals (Matrix.multiply c (inverse b)) a)
 	);
 ]
 

@@ -11,7 +11,7 @@ let tests = "Test Suite for Transformations" >::: [
     let transform = translation 5. (-3.) 2. in
     let q = point 2. 1. 7. in
     assert_bool "multiplication by translation matrix failed"
-        (equalTuple (multiplyMatrixTuple transform p) q)
+        (equalTuple (Matrix.multiply_tuple transform p) q)
     );
 
     "Multiplying by the inverse of a translation matrix" >::
@@ -21,7 +21,7 @@ let tests = "Test Suite for Transformations" >::: [
     let inv = inverse transform in
     let q = point (-8.) 7. 3. in
     assert_bool "multiplication by inverse translation matrix failed"
-        (equalTuple (multiplyMatrixTuple inv p) q)
+        (equalTuple (Matrix.multiply_tuple inv p) q)
     );
 
     "Translation does not affect vectors" >::
@@ -29,7 +29,7 @@ let tests = "Test Suite for Transformations" >::: [
     let v = vector (-3.) 4. 5. in
     let transform = translation 5. (-3.) 2. in
     assert_bool "translation of vector not constant"
-        (equalTuple (multiplyMatrixTuple transform v) v)
+        (equalTuple (Matrix.multiply_tuple transform v) v)
     );
 
     "A scaling matrix applied to a point" >::
@@ -38,7 +38,7 @@ let tests = "Test Suite for Transformations" >::: [
     let transform = scaling 2. 3. 4. in
     let q = point (-8.) 18. 32. in
     assert_bool "scaling matrix applied to point failed"
-        (equalTuple (multiplyMatrixTuple transform p) q)
+        (equalTuple (Matrix.multiply_tuple transform p) q)
     );
 
     "A scaling matrix applied to a vector" >::
@@ -47,7 +47,7 @@ let tests = "Test Suite for Transformations" >::: [
     let transform = scaling 2. 3. 4. in
     let v2 = vector (-8.) 18. 32. in
     assert_bool "scaling matrix applied to vector failed"
-        (equalTuple (multiplyMatrixTuple transform v) v2)
+        (equalTuple (Matrix.multiply_tuple transform v) v2)
     );
 
     "Multiplying by the inverse of a scaling matrix" >::
@@ -57,7 +57,7 @@ let tests = "Test Suite for Transformations" >::: [
     let inv = inverse transform in
     let v2 = vector (-2.) 2. 2. in
     assert_bool "multiplication by inverse scaling matrix failed"
-        (equalTuple (multiplyMatrixTuple inv v) v2)
+        (equalTuple (Matrix.multiply_tuple inv v) v2)
     );
 
     "Reflection is scaling by a negative value" >::
@@ -66,7 +66,7 @@ let tests = "Test Suite for Transformations" >::: [
     let transform = scaling (-1.) 1. 1. in
     let q = point (-2.) 3. 4. in
     assert_bool "reflection failed"
-        (equalTuple (multiplyMatrixTuple transform p) q)
+        (equalTuple (Matrix.multiply_tuple transform p) q)
     );
 
     "Rotating a point around the x axis" >::
@@ -77,9 +77,9 @@ let tests = "Test Suite for Transformations" >::: [
     let hq_p = point 0. ((sqrt 2.) /. 2.) ((sqrt 2.) /. 2.) in
     let fq_p = point 0. 0. 1. in
     assert_bool "half quarter failed" 
-        (equalTuple (multiplyMatrixTuple half_quarter p) hq_p);
+        (equalTuple (Matrix.multiply_tuple half_quarter p) hq_p);
     assert_bool "full quarter failed" 
-        (equalTuple (multiplyMatrixTuple full_quarter p) fq_p)
+        (equalTuple (Matrix.multiply_tuple full_quarter p) fq_p)
     );
 
     "Inverse of an x-rotation" >::
@@ -89,7 +89,7 @@ let tests = "Test Suite for Transformations" >::: [
     let inv = inverse half_quarter in
     let inv_hq_p = point 0. ((sqrt 2.) /. 2.) (-.(sqrt 2.) /. 2.) in
     assert_bool "inverse half quarter failed" 
-        (equalTuple (multiplyMatrixTuple inv p) inv_hq_p)
+        (equalTuple (Matrix.multiply_tuple inv p) inv_hq_p)
     );
 
     "Rotating a point around the y axis" >::
@@ -100,9 +100,9 @@ let tests = "Test Suite for Transformations" >::: [
     let hq_p = point ((sqrt 2.) /. 2.) 0. ((sqrt 2.) /. 2.) in
     let fq_p = point 1. 0. 0. in
     assert_bool "half quarter failed" 
-        (equalTuple (multiplyMatrixTuple half_quarter p) hq_p);
+        (equalTuple (Matrix.multiply_tuple half_quarter p) hq_p);
     assert_bool "full quarter failed" 
-        (equalTuple (multiplyMatrixTuple full_quarter p) fq_p)
+        (equalTuple (Matrix.multiply_tuple full_quarter p) fq_p)
     );
 
     "Rotating a point around the z axis" >::
@@ -113,9 +113,9 @@ let tests = "Test Suite for Transformations" >::: [
     let hq_p = point (-.(sqrt 2.) /. 2.) ((sqrt 2.) /. 2.) 0. in
     let fq_p = point (-1.) 0. 0. in
     assert_bool "half quarter failed" 
-        (equalTuple (multiplyMatrixTuple half_quarter p) hq_p);
+        (equalTuple (Matrix.multiply_tuple half_quarter p) hq_p);
     assert_bool "full quarter failed" 
-        (equalTuple (multiplyMatrixTuple full_quarter p) fq_p)
+        (equalTuple (Matrix.multiply_tuple full_quarter p) fq_p)
     );
 
     "A shearing transformation moves x in proportion to y" >::
@@ -124,7 +124,7 @@ let tests = "Test Suite for Transformations" >::: [
     let p = point 2. 3. 4. in
     let q = point 5. 3. 4. in
     assert_bool "shearing x in proportion to y failed"
-        (equalTuple (multiplyMatrixTuple transform p) q)
+        (equalTuple (Matrix.multiply_tuple transform p) q)
     );
 
     "A shearing transformation moves x in proportion to z" >::
@@ -133,7 +133,7 @@ let tests = "Test Suite for Transformations" >::: [
     let p = point 2. 3. 4. in
     let q = point 6. 3. 4. in
     assert_bool "shearing x in proportion to z failed"
-        (equalTuple (multiplyMatrixTuple transform p) q)
+        (equalTuple (Matrix.multiply_tuple transform p) q)
     );
 
     "A shearing transformation moves y in proportion to x" >::
@@ -142,7 +142,7 @@ let tests = "Test Suite for Transformations" >::: [
     let p = point 2. 3. 4. in
     let q = point 2. 5. 4. in
     assert_bool "shearing x in proportion to y failed"
-        (equalTuple (multiplyMatrixTuple transform p) q)
+        (equalTuple (Matrix.multiply_tuple transform p) q)
     );
 
     "A shearing transformation moves y in proportion to z" >::
@@ -151,7 +151,7 @@ let tests = "Test Suite for Transformations" >::: [
     let p = point 2. 3. 4. in
     let q = point 2. 7. 4. in
     assert_bool "shearing y in proportion to z failed"
-        (equalTuple (multiplyMatrixTuple transform p) q)
+        (equalTuple (Matrix.multiply_tuple transform p) q)
     );
 
     "A shearing transformation moves z in proportion to x" >::
@@ -160,7 +160,7 @@ let tests = "Test Suite for Transformations" >::: [
     let p = point 2. 3. 4. in
     let q = point 2. 3. 6. in
     assert_bool "shearing z in proportion to x failed"
-        (equalTuple (multiplyMatrixTuple transform p) q)
+        (equalTuple (Matrix.multiply_tuple transform p) q)
     );
 
     "A shearing transformation moves z in proportion to y" >::
@@ -169,7 +169,7 @@ let tests = "Test Suite for Transformations" >::: [
     let p = point 2. 3. 4. in
     let q = point 2. 3. 7. in
     assert_bool "shearing z in proportion to y failed"
-        (equalTuple (multiplyMatrixTuple transform p) q)
+        (equalTuple (Matrix.multiply_tuple transform p) q)
     );
 
     "Individual transformations are applied in sequence" >::
@@ -178,9 +178,9 @@ let tests = "Test Suite for Transformations" >::: [
     let a = rotation_x (Float.pi /. 2.) in
     let b = scaling 5. 5. 5. in
     let c = translation 10. 5. 7. in
-    let p2 = multiplyMatrixTuple a p in
-    let p3 = multiplyMatrixTuple b p2 in
-    let p4 = multiplyMatrixTuple c p3 in
+    let p2 = Matrix.multiply_tuple a p in
+    let p3 = Matrix.multiply_tuple b p2 in
+    let p4 = Matrix.multiply_tuple c p3 in
     let p2_correct = point 1. (-1.) 0. in 
     let p3_correct = point 5. (-5.) 0. in 
     let p4_correct = point 15. 0. 7. in
@@ -195,8 +195,8 @@ let tests = "Test Suite for Transformations" >::: [
     let a = rotation_x (Float.pi /. 2.) in
     let b = scaling 5. 5. 5. in
     let c = translation 10. 5. 7. in
-    let t = multiplyMatrix c (multiplyMatrix b a) in
-    let tp = multiplyMatrixTuple t p in
+    let t = Matrix.multiply c (Matrix.multiply b a) in
+    let tp = Matrix.multiply_tuple t p in
     let tp_correct = point 15. 0. 7. in 
     assert_bool "chained transformations failed" (equalTuple tp tp_correct);
     );

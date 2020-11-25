@@ -88,7 +88,7 @@ let tests = "Test Suite for Tuple" >::: [
         let k = 3.5 in
         let res_a = Tuple.tuple (3.5) (-7.) (10.5) (-14.) in
         assert_bool "tuple scalar multiplication incorrect" 
-            (Tuple.equals (Tuple.multiplyScalar a k) res_a)
+            (Tuple.equals (Tuple.multiply_scalar a k) res_a)
     );
     "Multiplying a tuple by a fraction" >::
     (fun _ -> 
@@ -96,7 +96,7 @@ let tests = "Test Suite for Tuple" >::: [
         let k = 0.5 in
         let res_a = Tuple.tuple (0.5) (-1.) (1.5) (-2.) in
         assert_bool "tuple fraction multiplication incorrect" 
-            (Tuple.equals (Tuple.multiplyScalar a k) res_a)
+            (Tuple.equals (Tuple.multiply_scalar a k) res_a)
     );
     "Dividing a tuple by a fraction" >::
     (fun _ -> 
@@ -104,7 +104,7 @@ let tests = "Test Suite for Tuple" >::: [
         let k = 2. in
         let res_a = Tuple.tuple (0.5) (-1.) (1.5) (-2.) in
         assert_bool "tuple fraction division incorrect" 
-            (Tuple.equals (Tuple.divideScalar a k) res_a)
+            (Tuple.equals (Tuple.divide_scalar a k) res_a)
     );
     "Computing vector magnitudes" >::
     (fun _ -> 
@@ -119,15 +119,15 @@ let tests = "Test Suite for Tuple" >::: [
         let m4 = sqrt 14. in
         let m5 = sqrt 14. in
         assert_bool "magnitude v1 failed" 
-            (Tuple.equalFloat (Tuple.magnitude v1) m1);
+            (Tuple.float_equals (Tuple.magnitude v1) m1);
         assert_bool "magnitude v2 failed" 
-            (Tuple.equalFloat (Tuple.magnitude v2) m2);
+            (Tuple.float_equals (Tuple.magnitude v2) m2);
         assert_bool "magnitude v3 failed" 
-            (Tuple.equalFloat (Tuple.magnitude v3) m3);
+            (Tuple.float_equals (Tuple.magnitude v3) m3);
         assert_bool "magnitude v4 failed" 
-            (Tuple.equalFloat (Tuple.magnitude v4) m4);
+            (Tuple.float_equals (Tuple.magnitude v4) m4);
         assert_bool "magnitude v5 failed" 
-            (Tuple.equalFloat (Tuple.magnitude v5) m5);
+            (Tuple.float_equals (Tuple.magnitude v5) m5);
     );
     "Normalizing vectors" >::
     (fun _ -> 
@@ -140,16 +140,16 @@ let tests = "Test Suite for Tuple" >::: [
         assert_bool "normalize v2 failed" 
             (Tuple.equals (Tuple.normalize v2) v2_norm);
         assert_bool "magnitude of normalized v1 failed" 
-            (Tuple.equalFloat (Tuple.magnitude (Tuple.normalize v1)) 1.0);
+            (Tuple.float_equals (Tuple.magnitude (Tuple.normalize v1)) 1.0);
         assert_bool "magnitude of normalized v2 failed" 
-            (Tuple.equalFloat (Tuple.magnitude (Tuple.normalize v2)) 1.0);
+            (Tuple.float_equals (Tuple.magnitude (Tuple.normalize v2)) 1.0);
     );
     "Dot product of two vectors" >::
     (fun _ -> 
         let v1 = Tuple.vector 2. 3. 4. in
         let v2 = Tuple.vector 1. 2. 3. in
         assert_bool "dot product failed" 
-            (Tuple.equalFloat (Tuple.dot v1 v2) 20.);
+            (Tuple.float_equals (Tuple.dot v1 v2) 20.);
     );
     "Cross product of two vectors" >::
     (fun _ -> 

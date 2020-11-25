@@ -5,9 +5,9 @@ open Color
 let tests = "Test Suite for Canvas" >::: [
     "Creating a canvas" >::
     (fun _ ->
-        let c = createCanvas 10 20 in
+        let c = create_canvas 10 20 in
         let all_black_1d = Array.fold_left 
-                            (fun ok pixel -> ok && equalColor pixel black)
+                            (fun ok pixel -> ok && Color.equals pixel black)
                             true in 
         let all_black_2d = Array.fold_left
                             (fun ok array1d -> ok && all_black_1d array1d)
@@ -19,15 +19,15 @@ let tests = "Test Suite for Canvas" >::: [
     );
     "Writing pixels to a canvas" >::
     (fun _ ->
-        let c = createCanvas 10 20 in
+        let c = create_canvas 10 20 in
         write_pixel c 2 3 red;
         assert_bool "writing pixel failed" 
-            (equalColor (pixel_at c 2 3) red);
+            (Color.equals (pixel_at c 2 3) red);
     );
     "Constructing the PPM header" >::
     (fun _ ->
-        let c = createCanvas 5 3 in 
-        let ppm = canvasToPPM c in 
+        let c = create_canvas 5 3 in 
+        let ppm = canvas_to_ppm c in 
         let lines = String.split_on_char '\n' ppm in
         match lines with 
         | l1 :: l2 :: l3 :: _ -> 
@@ -40,7 +40,7 @@ let tests = "Test Suite for Canvas" >::: [
     (fun _ ->
         let c = 
         (
-            let c53 = createCanvas 5 3 in 
+            let c53 = create_canvas 5 3 in 
             let c1 = color 1.5 0. 0. in 
             let c2 = color 0. 0.5 0. in
             let c3 = color (-0.5) 0. 1. in
@@ -50,7 +50,7 @@ let tests = "Test Suite for Canvas" >::: [
             c53
         ) in
 
-        let ppm = canvasToPPM c in 
+        let ppm = canvas_to_ppm c in 
         let lines = String.split_on_char '\n' ppm in
         
         match lines with 
@@ -66,8 +66,8 @@ let tests = "Test Suite for Canvas" >::: [
     "Splitting long lines in PPM files" >::
     (fun _ ->
         let col = color 1. 0.8 0.6 in
-        let wideCanvas = createCanvasColor 10 2 col in 
-        let ppm = canvasToPPM wideCanvas in 
+        let wideCanvas = create_color_canvas 10 2 col in 
+        let ppm = canvas_to_ppm wideCanvas in 
         let lines = String.split_on_char '\n' ppm in
         
         match lines with 
@@ -84,8 +84,8 @@ let tests = "Test Suite for Canvas" >::: [
     );
     "PPM files are terminated by a newline" >::
     (fun _ ->
-        let c = createCanvas 5 3 in
-        let ppm = canvasToPPM c in 
+        let c = create_canvas 5 3 in
+        let ppm = canvas_to_ppm c in 
         assert_equal (ppm.[String.length ppm - 1]) '\n';
     );
 ]

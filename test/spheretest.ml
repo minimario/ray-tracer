@@ -49,7 +49,7 @@ let tests = "Test Suite for Spheres" >::: [
     "Computing a normal on a transfored sphere" >::
     (fun _ ->
     let s = sphere in
-    let m = multiplyMatrix (scaling 1. 0.5 1.) (rotation_z (Float.pi /. 5.)) in
+    let m = Matrix.multiply (scaling 1. 0.5 1.) (rotation_z (Float.pi /. 5.)) in
     set_transform s m;
     let n = normal_at s (point 0. (Float.sqrt 2. /. 2.) ~-.(Float.sqrt 2. /. 2.)) in 
     assert_bool "normal wrong"

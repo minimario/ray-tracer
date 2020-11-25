@@ -16,7 +16,7 @@ let tests = "Test Suite for Colors" >::: [
 	let c2 = color 0.7 0.1 0.25 in
 	let expected_sum = color 1.6 0.7 1.0 in
 	assert_bool "color addition incorrect"
-	    (equalColor (addColor c1 c2) expected_sum);
+	    (Color.equals (Color.add c1 c2) expected_sum);
     );
     "Subtracting colors" >::
     (fun _ ->
@@ -24,7 +24,7 @@ let tests = "Test Suite for Colors" >::: [
 	let c2 = color 0.7 0.1 0.25 in
 	let expected_diff = color 0.2 0.5 0.5 in
 	assert_bool "color subtraction incorrect"
-	    (equalColor (subtractColor c1 c2) expected_diff);
+	    (Color.equals (Color.subtract c1 c2) expected_diff);
     );
     "Multiplying colors" >::
     (fun _ ->
@@ -32,14 +32,14 @@ let tests = "Test Suite for Colors" >::: [
 	let c2 = color 0.9 1. 0.1 in
 	let expected_product = color 0.9 0.2 0.04 in
 	assert_bool "color multiplication incorrect"
-	    (equalColor (multiplyColor c1 c2) expected_product);
+	    (Color.equals (Color.multiply c1 c2) expected_product);
     );
     "Scalar color multiplication" >::
     (fun _ ->
         let c1 = color 0.2 0.3 0.4 in
 	let expected_product = color 0.4 0.6 0.8 in
 	assert_bool "color scalar multiplication incorrect"
-	    (equalColor (multiplyColorScalar c1 2.) expected_product);
+	    (Color.equals (Color.multiply_scalar c1 2.) expected_product);
     );
 ]
 
