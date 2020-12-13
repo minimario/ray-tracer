@@ -26,4 +26,3 @@ let intersect (sphere:Sphere.shape) (ray:Rays.ray) =
         let t1 = (-.b -. sqrt discriminant) /. (2.*.a) in
         let t2 = (-.b +. sqrt discriminant) /. (2.*.a) in
         [{t=t1; intersection_object=sphere}; {t=t2; intersection_object=sphere}]
-

@@ -1,5 +1,9 @@
 type object_type = Sphere (* add other types later *)
 type shape = {shapeType: object_type; mutable material: Reflection.material; mutable transform: Matrix.matrix}
+let shape_equals shape other_shape =
+    shape.shapeType = other_shape.shapeType
+    && shape.material = other_shape.material
+    && shape.transform = other_shape.transform
 let sphere = {shapeType = Sphere; material = Reflection.default_material; transform = Matrix.identity_matrix}
 let set_transform sphere new_transform = 
     sphere.transform <- new_transform

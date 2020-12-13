@@ -1,5 +1,6 @@
 type point_light = {position: Tuple.tuple; intensity: Color.color}
 let point_light position intensity = {position; intensity}
+let point_light_equals pl other = (Tuple.equals pl.position other.position) && (Color.equals pl.intensity other.intensity)
 
 type material = {color: Color.color; ambient: float; diffuse: float; 
               specular: float; shininess: float}

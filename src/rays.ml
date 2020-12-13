@@ -1,4 +1,5 @@
 type ray = {origin: Tuple.tuple; direction: Tuple.tuple}
+let ray ori dir = {origin=ori; direction=dir}
 
 let origin {origin; _} = origin
 let direction {direction; _} = direction
