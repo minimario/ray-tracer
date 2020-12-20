@@ -15,6 +15,8 @@ let hit intersection_list  =
     | [] -> None
     | _ -> Some (List.hd sorted_intersections)
 
+let print_matrix m = m |> Array.iter (fun xs -> xs |> Array.iter (fun x -> print_endline x))
+
 let intersect (sphere:Sphere.shape) (ray:Rays.ray) = 
     let {origin; direction}:Rays.ray = Rays.transform ray (Matrix.inverse sphere.transform) in
     let sphere_to_ray = Tuple.subtract origin (Tuple.point 0. 0. 0.) in 
