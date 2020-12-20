@@ -56,8 +56,8 @@ let tests = "Test Suite for Reflections" >::: [
     (fun _ ->
     let s = sphere in 
     let m = {default_material with ambient = 1.} in
-    let _ = set_material s m in
-    assert (s.material = m)
+    let s' = set_material s m in
+    assert (s'.material = m)
     );
 
     "Lighting with the eye between the light and the surface" >::
