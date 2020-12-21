@@ -199,6 +199,48 @@ let tests = "Test Suite for Transformations" >::: [
     let tp_correct = Tuple.point 15. 0. 7. in 
     assert_bool "chained transformations failed" (equalTuple tp tp_correct);
     );
+
+    "Transformation matrix for default orientation" >::
+    (fun _ ->
+    let from_pt = Tuple.point 0. 0. 0. in
+    let to_pt = Tuple.point 0. 0. (-1.) in
+    let up = Tuple.vector 0. 1. 0. in
+    let t = Transformations.view_transform from_pt to_pt up in
+    assert (Matrix.equals identity_matrix t)
+    );
+
+    "Transformation matrix looking in positive z direction" >::
+    (fun _ ->
+    let from_pt = Tuple.point 0. 0. 0. in
+    let to_pt = Tuple.point 0. 0. 1. in
+    let up = Tuple.vector 0. 1. 0. in
+    let t = Transformations.view_transform from_pt to_pt up in
+    assert (Matrix.equals (scaling (-1.) 1. (-1.)) t)
+    );
+
+    "The view transformation moves the world via translation" >::
+    (fun _ ->
+    let from_pt = Tuple.point 0. 0. 8. in
+    let to_pt = Tuple.point 0. 0. 0. in
+    let up = Tuple.vector 0. 1. 0. in
+    let t = Transformations.view_transform from_pt to_pt up in
+    assert (Matrix.equals (translation 0. 0. (-8.)) t)
+    );
+
+    "An arbitrary view transformation" >::
+    (fun _ ->
+    let from_pt = Tuple.point 1. 3. 2. in
+    let to_pt = Tuple.point 4. (-2.) 8. in
+    let up = Tuple.vector 1. 1. 0. in
+    let t = Transformations.view_transform from_pt to_pt up in
+    let correct_transform = [| 
+        [| -0.50709; 0.50709;  0.67612; -2.36643 |];
+        [|  0.76772; 0.60609;  0.12122; -2.82843 |];
+        [| -0.35857; 0.59761; -0.71714;  0.00000 |];
+        [|  0.00000; 0.00000;  0.00000;  1.00000 |] 
+        |] in
+    assert (Matrix.equals correct_transform t)
+    );
 ]
 
 let _ = run_test_tt_main tests

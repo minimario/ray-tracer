@@ -39,3 +39,20 @@ let shearing xy xz yx yz zx zy = [|
     [| zx; zy; 1.; 0. |];
     [| 0.; 0.; 0.; 1. |]
 |]
+
+let view_transform from_pt to_pt up_vec =
+    Tuple.(
+    let neg_from = negate from_pt in
+    let forward = normalize (subtract to_pt from_pt) in 
+    let neg_forward = negate forward in
+    let upn = normalize up_vec in 
+    let left = cross forward upn in
+    let true_up = cross left forward in
+    let orientation = [|
+        [| left.x; left.y; left.z; 0. |];
+        [| true_up.x; true_up.y; true_up.z; 0. |];
+        [| neg_forward.x; neg_forward.y; neg_forward.z; 0. |];
+        [| 0.; 0.; 0.; 1. |]
+    |] in
+    Matrix.multiply orientation (translation neg_from.x neg_from.y neg_from.z)
+    )
