@@ -6,7 +6,8 @@ TARGETS := src/tuple.byte \
 		   src/intersections.byte \
 		   src/sphere.byte \
 		   src/reflection.byte \
-		   src/world.byte
+		   src/world.byte \
+		   src/camera.byte
 
 TEST_TARGETS := test/tupletest.byte \
 				test/colortest.byte \
@@ -16,7 +17,8 @@ TEST_TARGETS := test/tupletest.byte \
 				test/raystest.byte \
 				test/spheretest.byte \
 				test/reflectiontest.byte \
-				test/worldtest.byte
+				test/worldtest.byte \
+				test/cameratest.byte
 
 PROJECT_TARGETS := projects/projectile.byte \
 				   projects/clock.byte \
@@ -50,6 +52,7 @@ runtest:
 	./spheretest.byte
 	./reflectiontest.byte
 	./worldtest.byte
+	./cameratest.byte
 
 clean:
 	rm *.byte
