@@ -13,12 +13,14 @@ let reflect in_vec normal =
         (Tuple.multiply_scalar normal (2.*.(Tuple.dot in_vec normal)))
 
 (* Phong Reflection Model *)
-let lighting material light point eyev normalv =
+let lighting material light point eyev normalv in_shadow =
     let effective_color = Color.multiply material.color light.intensity in
     let lightv = Tuple.normalize (Tuple.subtract light.position point) in 
     let ambient = Color.multiply_scalar effective_color material.ambient in 
     let light_dot_normal = Tuple.dot lightv normalv in
-    if light_dot_normal < 0. then 
+    if in_shadow then 
+        ambient
+    else if light_dot_normal < 0. then 
         let diffuse = Color.color 0. 0. 0. in 
         let specular = Color.color 0. 0. 0. in
         Color.add ambient (Color.add diffuse specular)

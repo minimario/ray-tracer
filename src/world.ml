@@ -19,7 +19,8 @@ type computations =  (* should probably be in intersections *)
      point: Tuple.tuple;
      eyev: Tuple.tuple;
      normalv: Tuple.tuple;
-     inside: bool
+     inside: bool;
+     over_point: Tuple.tuple
     }
 
 let prepare_computations (intersection: Intersections.intersection) (ray: Rays.ray) =
@@ -27,16 +28,22 @@ let prepare_computations (intersection: Intersections.intersection) (ray: Rays.r
     and obj = intersection.intersection_object
     and point = Rays.position ray intersection.t
     and eyev = Tuple.negate ray.direction in
+
     let normalv = Sphere.normal_at obj point in
+    (* let _ = Printf.printf "normal %f %f %f\n" normalv.x normalv.y normalv.z in *)
+    let offset_normalv = if Tuple.dot normalv eyev < 0. then Tuple.negate normalv else normalv in
+    let over_point = Tuple.add point (Tuple.multiply_scalar offset_normalv Tuple.epsilon) in
+    (* let _ = Printf.printf "%f %f %f\n" over_point.x over_point.y over_point.z in *)
     let base_computation_object = (* object when hit is on outside *)
         {t=t; 
          comps_object=obj;
          point=point;
          eyev=eyev;
-         normalv=normalv;
-         inside=false} in
+         normalv=offset_normalv;
+         inside=false;
+         over_point=over_point} in
     if Tuple.dot normalv eyev < 0. then (* if hit is on inside, invert normal vector *)
-        {base_computation_object with inside=true; normalv=Tuple.negate normalv}
+        {base_computation_object with inside=true}
     else base_computation_object
 
 let intersect_world world ray =
@@ -44,13 +51,26 @@ let intersect_world world ray =
     let unsorted_list = List.flatten (List.map intersect_with_ray world.objects) in 
     List.sort (Intersections.cmp) unsorted_list
 
+let is_shadowed world point =
+    let v = Tuple.subtract (Option.get world.light).position point in
+    let distance = Tuple.magnitude v in
+    let direction = Tuple.normalize v in
+    let r = Rays.ray point direction in
+    let intersections = intersect_world world r in
+    let first_hit = Intersections.hit intersections in
+    match first_hit with
+    | None -> false
+    | Some hit -> hit.t < distance
+
 let shade_hit world comps = 
+    let shadowed = is_shadowed world comps.over_point in
     Reflection.lighting 
         comps.comps_object.material
         (Option.get world.light)
-        comps.point
+        comps.over_point
         comps.eyev
         comps.normalv
+        shadowed
 
 let color_at world ray = 
     let intersections = intersect_world world ray in
@@ -58,3 +78,4 @@ let color_at world ray =
     match first_hit with 
     | None -> Color.black
     | Some hit -> shade_hit world (prepare_computations hit ray)
+

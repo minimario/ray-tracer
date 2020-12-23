@@ -67,7 +67,8 @@ let tests = "Test Suite for Reflections" >::: [
     let eyev = vector 0. 0. (-1.) in
     let normalv = vector 0. 0. (-1.) in
     let light = point_light (point 0. 0. (-10.)) (color 1. 1. 1.) in
-    let result = lighting m light position eyev normalv in
+    let in_shadow = false in 
+    let result = lighting m light position eyev normalv in_shadow in
     assert (Color.equals result (color 1.9 1.9 1.9))
     );
 
@@ -78,7 +79,8 @@ let tests = "Test Suite for Reflections" >::: [
     let eyev = vector 0. (sqrt 2./.2.) (-.sqrt 2./.2.) in
     let normalv = vector 0. 0. (-1.) in
     let light = point_light (point 0. 0. (-10.)) (color 1. 1. 1.) in
-    let result = lighting m light position eyev normalv in
+    let in_shadow = false in 
+    let result = lighting m light position eyev normalv in_shadow in
     assert (Color.equals result (color 1. 1. 1.))
     );
 
@@ -89,7 +91,8 @@ let tests = "Test Suite for Reflections" >::: [
     let eyev = vector 0. 0. (-1.) in
     let normalv = vector 0. 0. (-1.) in
     let light = point_light (point 0. 10. (-10.)) (color 1. 1. 1.) in
-    let result = lighting m light position eyev normalv in
+    let in_shadow = false in 
+    let result = lighting m light position eyev normalv in_shadow in
     assert (Color.equals result (color 0.7364 0.7364 0.7364))
     );
 
@@ -100,7 +103,8 @@ let tests = "Test Suite for Reflections" >::: [
     let eyev = vector 0. (-.sqrt 2./.2.) (-.sqrt 2./.2.) in
     let normalv = vector 0. 0. (-1.) in
     let light = point_light (point 0. 10. (-10.)) (color 1. 1. 1.) in
-    let result = lighting m light position eyev normalv in
+    let in_shadow = false in 
+    let result = lighting m light position eyev normalv in_shadow in
     assert (Color.equals result (color 1.6364 1.6364 1.6364))
     );
 
@@ -111,10 +115,22 @@ let tests = "Test Suite for Reflections" >::: [
     let eyev = vector 0. 0. (-1.) in
     let normalv = vector 0. 0. (-1.) in
     let light = point_light (point 0. 0. 10.) (color 1. 1. 1.) in
-    let result = lighting m light position eyev normalv in
+    let in_shadow = false in 
+    let result = lighting m light position eyev normalv in_shadow in
     assert (Color.equals result (color 0.1 0.1 0.1))
     );
 
+    "Lighting with the surface in shadow" >::
+    (fun _ ->
+    let m = default_material in
+    let position = point 0. 0. 0. in
+    let eyev = vector 0. 0. (-1.) in
+    let normalv = vector 0. 0. (-1.) in
+    let light = point_light (point 0. 0. (-10.)) (color 1. 1. 1.) in
+    let in_shadow = true in
+    let result = lighting m light position eyev normalv in_shadow in
+    assert (Color.equals result (color 0.1 0.1 0.1))
+    );
 ]
 
 let _ = run_test_tt_main tests

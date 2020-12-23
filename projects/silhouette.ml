@@ -38,7 +38,7 @@ let rec project width height =  (* still don't know how to write functions *)
 				let point = Rays.position r hit.t in 
 				let normal = Sphere.normal_at hit.intersection_object point in
 				let eye = Tuple.negate r.direction in
-				let new_color = Reflection.lighting hit.intersection_object.material light point eye normal in
+				let new_color = Reflection.lighting hit.intersection_object.material light point eye normal false in
 				Canvas.write_pixel my_canvas (height-1) i new_color; write_row (i-1)
 			| None ->  write_row (i-1)
 	end in

@@ -94,7 +94,9 @@ let tests = "Test Suite for World" >::: [
 		let shape = List.nth w.objects 1 in
 		let i = Intersections.intersection 0.5 shape in 
 		let comps = World.prepare_computations i r in
+		let _ = Printf.printf "hi" in
 		let c = World.shade_hit w comps in
+		let _ = Printf.printf "bye" in
 		assert (Color.equals c (Color.color 0.90498 0.90498 0.90498))
 	);
 
@@ -132,6 +134,54 @@ let tests = "Test Suite for World" >::: [
 		let r = Rays.ray (Tuple.point 0. 0. 0.75) (Tuple.vector 0. 0. (-1.)) in
 		let c = World.color_at {w with objects=[new_outer; new_inner]} r in
 		assert (Color.equals c inner.material.color)
+	);
+
+	"The shadow when an object is between the point and the light" >::
+	(fun _ ->
+		let w = World.default_world in
+		let p = Tuple.point 10. (-10.) 10. in
+		assert (World.is_shadowed w p)
+	);
+
+	"There is no shadow when an object is behind the light" >::
+	(fun _ ->
+		let w = World.default_world in
+		let p = Tuple.point (-20.) 20. (-20.) in
+		assert (not (World.is_shadowed w p))
+	);
+
+	"There is no shadow when an object is behind the point" >::
+	(fun _ ->
+		let w = World.default_world in
+		let p = Tuple.point (-2.) 2. (-2.) in
+		assert (not (World.is_shadowed w p))
+	);
+
+	"shade_hit() is given an intersection in shadow" >::
+	(fun _ ->
+		let light = Reflection.point_light (Tuple.point 0. 0. (-10.)) (Color.color 1. 1. 1.) in
+		let s1 = Sphere.sphere in
+		let s2 = Sphere.sphere in 
+		let s2' = Sphere.set_transform s2 (Transformations.translation 0. 0. 10.) in
+		let (w:World.world) = {objects=[s1; s2']; light=Some light} in 
+		let r = Rays.ray (Tuple.point 0. 0. 5.) (Tuple.vector 0. 0. 1.) in
+		let i = Intersections.intersection 4. s2' in
+		let comps = World.prepare_computations i r in
+		let c = World.shade_hit w comps in
+		assert (Color.equals c (Color.color 0.1 0.1 0.1))		 
+	);
+
+	"The hit should offset the point" >::
+	(fun _ ->
+		let r = Rays.ray (Tuple.point 0. 0. (-5.)) (Tuple.vector 0. 0. 1.) in
+		let shape = Sphere.sphere in
+		let shape' = Sphere.set_transform shape (Transformations.translation 0. 0. 1.) in
+		let i = Intersections.intersection 5. shape' in
+		let comps = World.prepare_computations i r in
+		let op = comps.over_point in
+		(* let _ = Printf.printf "(%f, %f, %f)" op.x op.y op.z in *)
+		assert (comps.over_point.z < -.Tuple.epsilon/.2.);
+		assert (comps.point.z > comps.over_point.z)
 	);
 ]	
 

@@ -59,7 +59,7 @@ let camera_transform = Transformations.view_transform
                           (Tuple.point 0. 1. 0.)
                           (Tuple.vector 0. 1. 0.)
 
-let camera = {(Camera.create_camera 200 100 (Float.pi/.3.)) with transform = camera_transform}
+let camera = {(Camera.create_camera 100 50 (Float.pi/.3.)) with transform = camera_transform}
 
 let canvas = Camera.render camera world
 let ppm = Canvas.canvas_to_ppm canvas
