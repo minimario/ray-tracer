@@ -94,9 +94,7 @@ let tests = "Test Suite for World" >::: [
 		let shape = List.nth w.objects 1 in
 		let i = Intersections.intersection 0.5 shape in 
 		let comps = World.prepare_computations i r in
-		let _ = Printf.printf "hi" in
 		let c = World.shade_hit w comps in
-		let _ = Printf.printf "bye" in
 		assert (Color.equals c (Color.color 0.90498 0.90498 0.90498))
 	);
 
@@ -134,6 +132,13 @@ let tests = "Test Suite for World" >::: [
 		let r = Rays.ray (Tuple.point 0. 0. 0.75) (Tuple.vector 0. 0. (-1.)) in
 		let c = World.color_at {w with objects=[new_outer; new_inner]} r in
 		assert (Color.equals c inner.material.color)
+	);
+
+	"There is no shadow when nothing is collinear with point and light" >::
+	(fun _ ->
+		let w = World.default_world in
+		let p = Tuple.point 0. 10. 0. in
+		assert (not (World.is_shadowed w p))
 	);
 
 	"The shadow when an object is between the point and the light" >::
@@ -179,7 +184,6 @@ let tests = "Test Suite for World" >::: [
 		let i = Intersections.intersection 5. shape' in
 		let comps = World.prepare_computations i r in
 		let op = comps.over_point in
-		(* let _ = Printf.printf "(%f, %f, %f)" op.x op.y op.z in *)
 		assert (comps.over_point.z < -.Tuple.epsilon/.2.);
 		assert (comps.point.z > comps.over_point.z)
 	);

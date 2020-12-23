@@ -28,21 +28,18 @@ let prepare_computations (intersection: Intersections.intersection) (ray: Rays.r
     and obj = intersection.intersection_object
     and point = Rays.position ray intersection.t
     and eyev = Tuple.negate ray.direction in
-
     let normalv = Sphere.normal_at obj point in
-    (* let _ = Printf.printf "normal %f %f %f\n" normalv.x normalv.y normalv.z in *)
-    let offset_normalv = if Tuple.dot normalv eyev < 0. then Tuple.negate normalv else normalv in
-    let over_point = Tuple.add point (Tuple.multiply_scalar offset_normalv Tuple.epsilon) in
-    (* let _ = Printf.printf "%f %f %f\n" over_point.x over_point.y over_point.z in *)
+    let adj_normalv = if Tuple.dot normalv eyev < 0. then Tuple.negate normalv else normalv in
+    let over_point = Tuple.add point (Tuple.multiply_scalar adj_normalv Tuple.epsilon) in (* negate normal if hit on inside *)
     let base_computation_object = (* object when hit is on outside *)
         {t=t; 
          comps_object=obj;
          point=point;
          eyev=eyev;
-         normalv=offset_normalv;
+         normalv=adj_normalv;
          inside=false;
          over_point=over_point} in
-    if Tuple.dot normalv eyev < 0. then (* if hit is on inside, invert normal vector *)
+    if Tuple.dot normalv eyev < 0. then
         {base_computation_object with inside=true}
     else base_computation_object
 
