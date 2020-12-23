@@ -23,6 +23,7 @@ TEST_TARGETS := test/tupletest.byte \
 PROJECT_TARGETS := projects/projectile.byte \
 				   projects/clock.byte \
 				   projects/silhouette.byte \
+				   projects/sphereworld.byte
 
 main:
 	ocamlbuild -use-ocamlfind $(TARGETS)
@@ -40,6 +41,10 @@ projectile:
 silhouette:
 	ocamlbuild -I src -use-ocamlfind $(TARGETS) $(PROJECT_TARGETS)
 	./silhouette.byte
+
+sphereworld:
+	ocamlbuild -I src -use-ocamlfind $(TARGETS) $(PROJECT_TARGETS)
+	./sphereworld.byte
 
 runtest:
 	ocamlbuild -I src -use-ocamlfind $(TARGETS) $(TEST_TARGETS)
