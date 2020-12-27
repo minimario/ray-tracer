@@ -21,12 +21,15 @@ TEST_TARGETS := test/tupletest.byte \
 				test/reflectiontest.byte \
 				test/worldtest.byte \
 				test/cameratest.byte \
-				test/shapetest.byte
+				test/shapetest.byte \
+				test/planetest.byte
 
 PROJECT_TARGETS := projects/projectile.byte \
 				   projects/clock.byte \
 				   projects/silhouette.byte \
-				   projects/sphereworld.byte
+				   projects/sphereworld.byte \
+				   projects/sphereplane.byte
+
 
 main:
 	ocamlbuild -use-ocamlfind $(TARGETS)
@@ -34,20 +37,25 @@ main:
 	ocamlbuild -I src -use-ocamlfind $(TARGETS) $(PROJECT_TARGETS)
 
 clock:
-	ocamlbuild -I src -use-ocamlfind $(TARGETS) $(PROJECT_TARGETS)
+	ocamlbuild -I src -use-ocamlfind $(TARGETS) projects/clock.byte
 	./clock.byte
 
 projectile:
-	ocamlbuild -I src -use-ocamlfind $(TARGETS) $(PROJECT_TARGETS)
+	ocamlbuild -I src -use-ocamlfind $(TARGETS) projects/projectile.byte
 	./projectile.byte
 
 silhouette:
-	ocamlbuild -I src -use-ocamlfind $(TARGETS) $(PROJECT_TARGETS)
+	ocamlbuild -I src -use-ocamlfind $(TARGETS) projects/silhouette.byte
 	./silhouette.byte
 
 sphereworld:
-	ocamlbuild -I src -use-ocamlfind $(TARGETS) $(PROJECT_TARGETS)
+	ocamlbuild -I src -use-ocamlfind $(TARGETS) projects/sphereworld.byte
 	./sphereworld.byte
+
+sphereplane:
+	ocamlbuild -I src -use-ocamlfind $(TARGETS) projects/sphereplane.byte
+	./sphereplane.byte
+
 
 runtest:
 	ocamlbuild -I src -use-ocamlfind $(TARGETS) $(TEST_TARGETS)
@@ -62,6 +70,7 @@ runtest:
 	./worldtest.byte
 	./cameratest.byte
 	./shapetest.byte
+	./planetest.byte
 
 clean:
 	rm *.byte

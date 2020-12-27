@@ -35,3 +35,4 @@ let normal_at (shape:shape) world_point =
     Tuple.normalize (Tuple.vector world_normal.x world_normal.y world_normal.z)
 
 let sphere = shape_create Sphere
+let plane = shape_create Plane
