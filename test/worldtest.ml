@@ -14,26 +14,26 @@ let tests = "Test Suite for World" >::: [
         and w = World.default_world in
 	assert_bool "incorrect light source" (Reflection.point_light_equals (Option.get w.light) light);
 
-	let s1 = Sphere.sphere
+	let s1 = Shape.sphere
     	and (material: Reflection.material) = {color=Color.color 0.8 1.0 0.6; ambient=0.1; diffuse=0.7;
                    specular=0.2; shininess=200.0} in
-    	let s1' = Sphere.set_material s1 material in
+    	let s1' = Shape.set_material s1 material in
 	assert_bool "outer sphere not found" (World.contains w s1');
 
-    	let s2 = Sphere.sphere
+    	let s2 = Shape.sphere
     	and new_transform = Transformations.scaling 0.5 0.5 0.5 in
-    	let s2' = Sphere.set_transform s2 new_transform in
+    	let s2' = Shape.set_transform s2 new_transform in
 	assert_bool "inner sphere not found" (World.contains w s2');
     );
 
     "Precomputing the state of an intersection" >::
     (fun _ ->
-	let shape = Sphere.sphere in
+	let shape = Shape.sphere in
 	let i = Intersections.intersection 4. shape
         and r = Rays.ray (Tuple.point 0. 0. ~-.5.) (Tuple.vector 0. 0. 1.) in
         let comps = World.prepare_computations i r in
 	assert_bool "object property incorrect"
-	    (Sphere.shape_equals comps.comps_object i.intersection_object);
+	    (Shape.shape_equals comps.comps_object i.intersection_object);
         assert_bool "computed point incorrect"
 	    (Tuple.equals comps.point (Tuple.point 0. 0. ~-.1.));
 	assert_bool "computed eyev incorrect"
@@ -57,7 +57,7 @@ let tests = "Test Suite for World" >::: [
 	"Hit when intersection is on outside" >::
 	(fun _ ->
 		let r = Rays.ray (Tuple.point 0. 0. (-5.)) (Tuple.vector 0. 0. 1.) in
-		let shape = Sphere.sphere in
+		let shape = Shape.sphere in
 		let i = Intersections.intersection 4. shape in
 		let comps = World.prepare_computations i r in
 		assert (not comps.inside)
@@ -66,7 +66,7 @@ let tests = "Test Suite for World" >::: [
 	"Hit when intersection is on inside" >::
 	(fun _ ->
 		let r = Rays.ray (Tuple.point 0. 0. 0.) (Tuple.vector 0. 0. 1.) in
-		let shape = Sphere.sphere in
+		let shape = Shape.sphere in
 		let i = Intersections.intersection 1. shape in
 		let comps = World.prepare_computations i r in
 		assert (Tuple.equals comps.point (Tuple.point 0. 0. 1.));
@@ -165,9 +165,9 @@ let tests = "Test Suite for World" >::: [
 	"shade_hit() is given an intersection in shadow" >::
 	(fun _ ->
 		let light = Reflection.point_light (Tuple.point 0. 0. (-10.)) (Color.color 1. 1. 1.) in
-		let s1 = Sphere.sphere in
-		let s2 = Sphere.sphere in 
-		let s2' = Sphere.set_transform s2 (Transformations.translation 0. 0. 10.) in
+		let s1 = Shape.sphere in
+		let s2 = Shape.sphere in 
+		let s2' = Shape.set_transform s2 (Transformations.translation 0. 0. 10.) in
 		let (w:World.world) = {objects=[s1; s2']; light=Some light} in 
 		let r = Rays.ray (Tuple.point 0. 0. 5.) (Tuple.vector 0. 0. 1.) in
 		let i = Intersections.intersection 4. s2' in
@@ -179,11 +179,10 @@ let tests = "Test Suite for World" >::: [
 	"The hit should offset the point" >::
 	(fun _ ->
 		let r = Rays.ray (Tuple.point 0. 0. (-5.)) (Tuple.vector 0. 0. 1.) in
-		let shape = Sphere.sphere in
-		let shape' = Sphere.set_transform shape (Transformations.translation 0. 0. 1.) in
+		let shape = Shape.sphere in
+		let shape' = Shape.set_transform shape (Transformations.translation 0. 0. 1.) in
 		let i = Intersections.intersection 5. shape' in
 		let comps = World.prepare_computations i r in
-		let op = comps.over_point in
 		assert (comps.over_point.z < -.Tuple.epsilon/.2.);
 		assert (comps.point.z > comps.over_point.z)
 	);

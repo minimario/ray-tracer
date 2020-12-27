@@ -8,7 +8,7 @@ let half = wall_size /. 2.
 let my_canvas = Canvas.create_canvas canvas_pixels canvas_pixels
 let my_color = Color.color 1. 0. 0.
 let sphere_material = {Reflection.default_material with color = Color.color 1. 0.2 1.}
-let my_shape = {Sphere.sphere with material = sphere_material}
+let my_shape = {Shape.sphere with material = sphere_material}
 let light = 
     let light_position = Tuple.point (-10.) 10. (-10.) in
     let light_color = Color.color 1. 1. 1. in
@@ -32,11 +32,11 @@ let rec project width height =  (* still don't know how to write functions *)
 	    let world_x = (-.half) +. pixel_size *. float_of_int i in
 	    let position = Tuple.point world_x world_y wall_z in
 	    let r:Rays.ray = {origin=ray_origin; direction=Tuple.normalize (Tuple.subtract position ray_origin)} in
-	    let xs = Intersections.intersect my_shape r in
+	    let xs = Shape.intersect my_shape r in
 		match Intersections.hit xs with
 			| (Some hit) -> 
 				let point = Rays.position r hit.t in 
-				let normal = Sphere.normal_at hit.intersection_object point in
+				let normal = Shape.normal_at hit.intersection_object point in
 				let eye = Tuple.negate r.direction in
 				let new_color = Reflection.lighting hit.intersection_object.material light point eye normal false in
 				Canvas.write_pixel my_canvas (height-1) i new_color; write_row (i-1)

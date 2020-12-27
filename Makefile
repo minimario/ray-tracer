@@ -7,7 +7,9 @@ TARGETS := src/tuple.byte \
 		   src/sphere.byte \
 		   src/reflection.byte \
 		   src/world.byte \
-		   src/camera.byte
+		   src/camera.byte \
+		   src/plane.byte \
+		   src/shapetype.byte
 
 TEST_TARGETS := test/tupletest.byte \
 				test/colortest.byte \
@@ -18,7 +20,8 @@ TEST_TARGETS := test/tupletest.byte \
 				test/spheretest.byte \
 				test/reflectiontest.byte \
 				test/worldtest.byte \
-				test/cameratest.byte
+				test/cameratest.byte \
+				test/shapetest.byte
 
 PROJECT_TARGETS := projects/projectile.byte \
 				   projects/clock.byte \
@@ -58,6 +61,7 @@ runtest:
 	./reflectiontest.byte
 	./worldtest.byte
 	./cameratest.byte
+	./shapetest.byte
 
 clean:
 	rm *.byte

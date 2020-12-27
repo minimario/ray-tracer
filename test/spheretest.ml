@@ -5,7 +5,7 @@ open Tuple
 open Transformations
 open Matrix
 open Intersections
-open Sphere
+open Shape
 
 let equalTuple = Tuple.equals
 let tests = "Test Suite for Spheres" >::: [

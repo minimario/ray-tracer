@@ -3,6 +3,7 @@ open Tuple
 open OUnit2
 open Color
 open Sphere
+open Shape
 
 let equalTuple = Tuple.equals
 let tests = "Test Suite for Reflections" >::: [

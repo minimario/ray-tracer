@@ -5,7 +5,7 @@ open Tuple
 open Transformations
 open Matrix
 open Intersections
-open Sphere
+open Shape
 
 let equalTuple = Tuple.equals
 let tests = "Test Suite for Rays" >::: [
@@ -219,6 +219,7 @@ let tests = "Test Suite for Rays" >::: [
     let s = sphere in 
     let s' = set_transform s (scaling 2. 2. 2.) in 
     let xs = intersect s' r in 
+    let _ = Printf.printf "%f" (List.hd xs).t in 
     assert_equal (List.length xs) 2;
     assert_equal (List.hd xs).t 3.;
     assert_equal (List.hd (List.tl xs)).t 7.;

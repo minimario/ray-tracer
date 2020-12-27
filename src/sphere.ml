@@ -1,16 +1,15 @@
-type object_type = Sphere (* add other types later *)
-type shape = {shapeType: object_type; material: Reflection.material; transform: Matrix.matrix}
-let shape_equals shape other_shape =
-    shape.shapeType = other_shape.shapeType
-    && shape.material = other_shape.material
-    && shape.transform = other_shape.transform
-let sphere = {shapeType = Sphere; material = Reflection.default_material; transform = Matrix.identity_matrix}
-let set_transform sphere new_transform = {sphere with transform = new_transform}
+open Shapetype
+let local_normal_at (sphere:shape) local_point =
+    Tuple.(subtract local_point (point 0. 0. 0.))
 
-let set_material sphere new_material = {sphere with material = new_material}
-    
-let normal_at sphere world_point =
-    let object_point = Matrix.(multiply_tuple (inverse sphere.transform) world_point) in
-    let object_normal = Tuple.(subtract object_point (point 0. 0. 0.)) in
-    let world_normal = Matrix.(multiply_tuple (transpose (inverse sphere.transform)) object_normal) in
-    Tuple.normalize (Tuple.vector world_normal.x world_normal.y world_normal.z)
+let local_intersect (sphere:shape) {Rays.origin; direction} =
+    let sphere_to_ray = Tuple.subtract origin (Tuple.point 0. 0. 0.) in 
+    let a = Tuple.dot direction direction in 
+    let b = 2. *. Tuple.dot direction sphere_to_ray in 
+    let c = Tuple.dot sphere_to_ray sphere_to_ray -. 1. in 
+    let discriminant = b*.b-.4.*.a*.c in
+    if discriminant < 0. then [] 
+    else 
+        let t1 = (-.b -. sqrt discriminant) /. (2.*.a) in
+        let t2 = (-.b +. sqrt discriminant) /. (2.*.a) in
+        [{Intersections.t=t1; intersection_object=sphere}; {t=t2; intersection_object=sphere}]

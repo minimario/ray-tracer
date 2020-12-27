@@ -1,21 +1,21 @@
-type world = {objects: Sphere.shape list; light: Reflection.point_light option}
+type world = {objects: Shapetype.shape list; light: Reflection.point_light option}
 
 let world_create = {objects=[]; light=None}
 let default_world =
-    let s1 = Sphere.sphere
+    let s1 = Shape.sphere
     and (material: Reflection.material) = 
         {Reflection.default_material with color=Color.color 0.8 1. 0.6; diffuse=0.7; specular=0.2;} in
-    let s1' = Sphere.set_material s1 material in 
-    let s2 = Sphere.sphere
+    let s1' = Shape.set_material s1 material in 
+    let s2 = Shape.sphere
     and new_transform = Transformations.scaling 0.5 0.5 0.5 in
-    let s2' = Sphere.set_transform s2 new_transform in
+    let s2' = Shape.set_transform s2 new_transform in
     let light = Reflection.point_light (Tuple.point ~-.10. 10. ~-.10.) (Color.color 1. 1. 1.) in
     {objects=[s1';s2']; light=Some light}
 let contains world obj = List.mem obj world.objects
 
 type computations =  (* should probably be in intersections *)
     {t: float; 
-     comps_object: Sphere.shape; 
+     comps_object: Shapetype.shape; 
      point: Tuple.tuple;
      eyev: Tuple.tuple;
      normalv: Tuple.tuple;
@@ -28,7 +28,7 @@ let prepare_computations (intersection: Intersections.intersection) (ray: Rays.r
     and obj = intersection.intersection_object
     and point = Rays.position ray intersection.t
     and eyev = Tuple.negate ray.direction in
-    let normalv = Sphere.normal_at obj point in
+    let normalv = Shape.normal_at obj point in
     let adj_normalv = if Tuple.dot normalv eyev < 0. then Tuple.negate normalv else normalv in
     let over_point = Tuple.add point (Tuple.multiply_scalar adj_normalv Tuple.epsilon) in (* negate normal if hit on inside *)
     let base_computation_object = (* object when hit is on outside *)
@@ -44,7 +44,7 @@ let prepare_computations (intersection: Intersections.intersection) (ray: Rays.r
     else base_computation_object
 
 let intersect_world world ray =
-    let intersect_with_ray shape = Intersections.intersect shape ray in
+    let intersect_with_ray shape = Shape.intersect shape ray in
     let unsorted_list = List.flatten (List.map intersect_with_ray world.objects) in 
     List.sort (Intersections.cmp) unsorted_list
 

@@ -1,6 +1,6 @@
 let floor_material = {Reflection.default_material with color = Color.color 1. 0.9 0.9; specular = 0.}
 let floor_transform = Transformations.scaling 10. 0.01 10.
-let floor = {Sphere.sphere with material = floor_material; transform = floor_transform}
+let floor = {Shape.sphere with material = floor_material; transform = floor_transform}
 
 let left_wall_transform = Transformations.(
     let t1 = translation 0. 0. 5. in
@@ -9,7 +9,7 @@ let left_wall_transform = Transformations.(
     let t4 = scaling 10. 0.01 10. in
     Matrix.(multiply (multiply (multiply t1 t2) t3) t4)
 )
-let left_wall = {Sphere.sphere with material = floor_material; transform = left_wall_transform}
+let left_wall = {Shape.sphere with material = floor_material; transform = left_wall_transform}
 let right_wall_transform = Transformations.(
     let t1 = translation 0. 0. 5. in
     let t2 = rotation_y (Float.pi/.4.) in
@@ -17,14 +17,14 @@ let right_wall_transform = Transformations.(
     let t4 = scaling 10. 0.01 10. in
     Matrix.(multiply (multiply (multiply t1 t2) t3) t4)
 )
-let right_wall = {Sphere.sphere with material = floor_material; transform = right_wall_transform}
+let right_wall = {Shape.sphere with material = floor_material; transform = right_wall_transform}
 
 let middle_material = {Reflection.default_material with 
                         color = Color.color 0.1 1. 0.5;
                         diffuse = 0.7;
                         specular = 0.3}
 let middle_transform = Transformations.translation (-0.5) 1. 0.5
-let middle = {Sphere.sphere with material = middle_material; transform = middle_transform}
+let middle = {Shape.sphere with material = middle_material; transform = middle_transform}
 
 let right_material = {Reflection.default_material with 
                         color = Color.color 0.5 1. 0.1;
@@ -35,7 +35,7 @@ let right_transform = Transformations.(
     let t2 = scaling 0.5 0.5 0.5 in
     Matrix.(multiply t1 t2)
 )
-let right = {Sphere.sphere with material = right_material; transform = right_transform}
+let right = {Shape.sphere with material = right_material; transform = right_transform}
 
 let left_material = {Reflection.default_material with 
                         color = Color.color 1. 0.8 0.1;
@@ -46,7 +46,7 @@ let left_transform = Transformations.(
     let t2 = scaling 0.33 0.33 0.33 in
     Matrix.(multiply t1 t2)
 )
-let left = {Sphere.sphere with material = left_material; transform = left_transform}
+let left = {Shape.sphere with material = left_material; transform = left_transform}
 
 let light_source = Reflection.point_light 
                     (Tuple.point (-10.) 10. (-10.)) 
