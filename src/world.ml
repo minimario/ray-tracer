@@ -1,9 +1,9 @@
-type world = {objects: Shapetype.shape list; light: Reflection.point_light option}
+type world = {objects: ShapeType.shape list; light: Reflection.point_light option}
 
 let world_create = {objects=[]; light=None}
 let default_world =
     let s1 = Shape.sphere
-    and (material: Reflection.material) = 
+    and (material: ShapeType.material) = 
         {Reflection.default_material with color=Color.color 0.8 1. 0.6; diffuse=0.7; specular=0.2;} in
     let s1' = Shape.set_material s1 material in 
     let s2 = Shape.sphere
@@ -15,7 +15,7 @@ let contains world obj = List.mem obj world.objects
 
 type computations =  (* should probably be in intersections *)
     {t: float; 
-     comps_object: Shapetype.shape; 
+     comps_object: ShapeType.shape; 
      point: Tuple.tuple;
      eyev: Tuple.tuple;
      normalv: Tuple.tuple;
@@ -63,6 +63,7 @@ let shade_hit world comps =
     let shadowed = is_shadowed world comps.over_point in
     Reflection.lighting 
         comps.comps_object.material
+        comps.comps_object
         (Option.get world.light)
         comps.over_point
         comps.eyev

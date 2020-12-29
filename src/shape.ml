@@ -1,4 +1,4 @@
-open Shapetype
+open ShapeType
 
 (* constructor for a shape *)
 let shape_create shape_type =

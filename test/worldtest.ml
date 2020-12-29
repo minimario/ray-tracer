@@ -15,8 +15,8 @@ let tests = "Test Suite for World" >::: [
 	assert_bool "incorrect light source" (Reflection.point_light_equals (Option.get w.light) light);
 
 	let s1 = Shape.sphere
-    	and (material: Reflection.material) = {color=Color.color 0.8 1.0 0.6; ambient=0.1; diffuse=0.7;
-                   specular=0.2; shininess=200.0} in
+    	and (material: ShapeType.material) = {color=Color.color 0.8 1.0 0.6; ambient=0.1; diffuse=0.7;
+                   specular=0.2; shininess=200.0; pattern = None} in
     	let s1' = Shape.set_material s1 material in
 	assert_bool "outer sphere not found" (World.contains w s1');
 

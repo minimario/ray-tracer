@@ -2,6 +2,7 @@
 type color = {red:float; green:float; blue:float}
 
 let color r g b = {red=r; green=g; blue=b}
+let white = color 1. 1. 1.
 let black = color 0. 0. 0.
 let red = color 1. 0. 0.
 

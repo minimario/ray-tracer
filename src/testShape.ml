@@ -1,4 +1,4 @@
-open Shapetype
+open ShapeType
 let local_normal_at testshape (local_point:Tuple.tuple) =
     Tuple.vector local_point.x local_point.y local_point.z
 

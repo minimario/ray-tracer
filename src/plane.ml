@@ -1,4 +1,4 @@
-open Shapetype
+open ShapeType
 let local_normal_at plane world_point =
     Tuple.vector 0. 1. 0.
 

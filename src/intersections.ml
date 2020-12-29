@@ -1,4 +1,4 @@
-type intersection = {t: float; intersection_object: Shapetype.shape}
+type intersection = {t: float; intersection_object: ShapeType.shape}
 let intersection t intersection_object = {t; intersection_object}
 
 let cmp x y = 

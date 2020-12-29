@@ -33,7 +33,7 @@ let left = {Shape.sphere with material = left_material; transform = left_transfo
 let light_source = Reflection.point_light 
                     (Tuple.point (-10.) 10. (-10.)) 
                     (Color.color 1. 1. 1.)
-let (world:World.world) = {objects = [floor; middle; right; left]; 
+let (world:World.world) = {objects = [floor; middle]; 
              light = Some light_source}
 
 let camera_transform = Transformations.view_transform 
@@ -41,7 +41,7 @@ let camera_transform = Transformations.view_transform
                           (Tuple.point 0. 1. 0.)
                           (Tuple.vector 0. 1. 0.)
 
-let camera = {(Camera.create_camera 300 150 (Float.pi/.3.)) with transform = camera_transform}
+let camera = {(Camera.create_camera 500 50 (Float.pi/.3.)) with transform = camera_transform}
 
 let canvas = Camera.render camera world
 let ppm = Canvas.canvas_to_ppm canvas

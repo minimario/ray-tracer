@@ -1,4 +1,4 @@
-open Shapetype
+open ShapeType
 let local_normal_at (sphere:shape) local_point =
     Tuple.(subtract local_point (point 0. 0. 0.))
 
