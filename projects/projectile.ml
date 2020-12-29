@@ -10,8 +10,8 @@ let rec sim canvas (env, {pos; vel}) =
     if (pos.y <= 0.) then canvas
     else 
         Canvas.(
-        let x = round (pos.x) in 
-        let y = canvas.height - (round (pos.y)) in
+        let x = Util.round (pos.x) in 
+        let y = canvas.height - (Util.round (pos.y)) in
         let inBounds = 0 <= x && x < canvas.width && 
                        0 <= y && y < canvas.height in
     begin

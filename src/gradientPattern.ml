@@ -1,6 +1,4 @@
 open PatternType
-
-exception BadPattern of string
 let local_stripe_at a b (point:Tuple.tuple) =
     Color.(
         let distance = subtract b a in

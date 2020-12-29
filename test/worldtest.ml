@@ -3,7 +3,7 @@ open OUnit2
 let tests = "Test Suite for World" >::: [
     "Creating a world" >::
     (fun _ ->
-        let w = World.world_create in
+        let w = World.world in
 	assert_bool "should have no objects" ((List.length w.objects) == 0);
 	assert_bool "should have no light source" (Option.is_none w.light);
     );
@@ -183,7 +183,7 @@ let tests = "Test Suite for World" >::: [
 		let shape' = Shape.set_transform shape (Transformations.translation 0. 0. 1.) in
 		let i = Intersections.intersection 5. shape' in
 		let comps = World.prepare_computations i r in
-		assert (comps.over_point.z < -.Tuple.epsilon/.2.);
+		assert (comps.over_point.z < -.Util.epsilon/.2.);
 		assert (comps.point.z > comps.over_point.z)
 	);
 ]	

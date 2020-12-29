@@ -12,8 +12,8 @@ let rec draw canvas time =
     else 
         let {x; y; _} = pos time in 
         let radius = 50. in
-        let canvas_x = canvas.width / 2 + round (radius *. x) in
-        let canvas_y = canvas.height / 2 + round (radius *. y) in
+        let canvas_x = canvas.width / 2 + Util.round (radius *. x) in
+        let canvas_y = canvas.height / 2 + Util.round (radius *. y) in
         let inBounds = 0 <= canvas_x && canvas_x < canvas.width && 
                        0 <= canvas_y && canvas_y < canvas.height in
     begin

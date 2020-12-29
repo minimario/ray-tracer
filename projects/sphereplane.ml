@@ -4,7 +4,8 @@ let floor = {Shape.plane with material = floor_material}
 let middle_material = {Reflection.default_material with 
                         color = Color.color 0.1 1. 0.5;
                         diffuse = 0.7;
-                        specular = 0.3}
+                        specular = 0.3;
+                        pattern = Some (Patterns.pattern (CheckersPattern (Color.white, Color.black)))}
 let middle_transform = Transformations.translation (-0.5) 1. 0.5
 let middle = {Shape.sphere with material = middle_material; transform = middle_transform}
 
@@ -33,7 +34,7 @@ let left = {Shape.sphere with material = left_material; transform = left_transfo
 let light_source = Reflection.point_light 
                     (Tuple.point (-10.) 10. (-10.)) 
                     (Color.color 1. 1. 1.)
-let (world:World.world) = {objects = [floor; middle; right; left]; 
+let (world:World.world) = {objects = [floor; middle]; 
              light = Some light_source}
 
 let camera_transform = Transformations.view_transform 
@@ -45,4 +46,4 @@ let camera = {(Camera.create_camera 300 150 (Float.pi/.3.)) with transform = cam
 
 let canvas = Camera.render camera world
 let ppm = Canvas.canvas_to_ppm canvas
-let () = output_string (open_out "images/sphereplane.ppm") ppm;
+let () = output_string (open_out "images/sphereplanepattern.ppm") ppm;

@@ -9,8 +9,6 @@ let create_canvas w h = create_color_canvas w h Color.black
 let write_pixel canvas x y color = canvas.pixels.(y).(x) <- color
 let pixel_at canvas x y = canvas.pixels.(y).(x)
 
-let round f = int_of_float (floor (f +. 0.5))
-
 let rec row_to_string row i = 
     let current_pixel_string = Color.to_string row.(i) in 
     if (i = Array.length row - 1) then current_pixel_string 

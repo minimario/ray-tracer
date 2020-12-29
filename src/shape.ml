@@ -1,7 +1,7 @@
 open ShapeType
 
 (* constructor for a shape *)
-let shape_create shape_type =
+let shape shape_type =
     {shape_type;
      material = Reflection.default_material;
      transform = Matrix.identity_matrix}
@@ -34,5 +34,5 @@ let normal_at (shape:shape) world_point =
     let world_normal = Matrix.(multiply_tuple (transpose (inverse shape.transform)) local_normal) in
     Tuple.normalize (Tuple.vector world_normal.x world_normal.y world_normal.z)
 
-let sphere = shape_create Sphere
-let plane = shape_create Plane
+let sphere = shape Sphere
+let plane = shape Plane

@@ -1,6 +1,6 @@
 type world = {objects: ShapeType.shape list; light: Reflection.point_light option}
 
-let world_create = {objects=[]; light=None}
+let world = {objects=[]; light=None}
 let default_world =
     let s1 = Shape.sphere
     and (material: ShapeType.material) = 
@@ -30,7 +30,7 @@ let prepare_computations (intersection: Intersections.intersection) (ray: Rays.r
     and eyev = Tuple.negate ray.direction in
     let normalv = Shape.normal_at obj point in
     let adj_normalv = if Tuple.dot normalv eyev < 0. then Tuple.negate normalv else normalv in
-    let over_point = Tuple.add point (Tuple.multiply_scalar adj_normalv Tuple.epsilon) in (* negate normal if hit on inside *)
+    let over_point = Tuple.add point (Tuple.multiply_scalar adj_normalv Util.epsilon) in (* negate normal if hit on inside *)
     let base_computation_object = (* object when hit is on outside *)
         {t=t; 
          comps_object=obj;

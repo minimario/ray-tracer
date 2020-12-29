@@ -18,9 +18,7 @@ let subtract a b = color_of_tuple (Tuple.subtract (tuple_of_color a) (tuple_of_c
 let multiply_scalar a k = color_of_tuple (Tuple.multiply_scalar (tuple_of_color a) k)
 let hadamard_product a b = {red=a.red*.b.red; green=a.green*.b.green; blue=a.blue*.b.blue}
 let multiply = hadamard_product
-
-let round f = int_of_float (floor (f +. 0.5))
-let int_of_color c = round (min 255. (max 0. (255.*.c)))
+let int_of_color c = Util.round (min 255. (max 0. (255.*.c)))
 let to_string {red; green; blue} = String.concat " " 
                                         (List.map (fun color -> string_of_int (int_of_color color))
                                             [red; green; blue])

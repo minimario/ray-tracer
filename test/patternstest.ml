@@ -3,7 +3,7 @@ open OUnit2
 let tests = "Test Suite for Patterns" >::: [
     "Creating a stripe pattern" >::
     (fun _ ->
-        let pattern = Patterns.pattern_create (StripePattern (Color.white, Color.black)) in
+        let pattern = Patterns.pattern (StripePattern (Color.white, Color.black)) in
         match pattern.pattern_type with
         | StripePattern (a, b) -> assert (a = Color.white && b = Color.black)
         | _ -> assert false
@@ -11,7 +11,7 @@ let tests = "Test Suite for Patterns" >::: [
 
     "Stripe pattern colors" >::
     (fun _ ->
-        let pattern = Patterns.pattern_create (StripePattern (Color.white, Color.black)) in
+        let pattern = Patterns.pattern (StripePattern (Color.white, Color.black)) in
         match pattern.pattern_type with 
         | StripePattern (a, b) ->
             assert (StripePattern.local_stripe_at a b (Tuple.point 0. 0. 0.) = Color.white);
@@ -29,7 +29,7 @@ let tests = "Test Suite for Patterns" >::: [
 
     "Lighting with a pattern applied" >::
     (fun _ ->
-        let p = Patterns.pattern_create (StripePattern (Color.white, Color.black)) in
+        let p = Patterns.pattern (StripePattern (Color.white, Color.black)) in
         let m = {Reflection.default_material with pattern=Some p; ambient = 1.; diffuse = 0.; specular = 0.} in
         let eyev = Tuple.vector 0. 0. (-1.) in
         let normalv = Tuple.vector 0. 0. (-1.) in
@@ -45,7 +45,7 @@ let tests = "Test Suite for Patterns" >::: [
     (fun _ ->
         let s = Shape.sphere in
         let s' = Shape.set_transform s (Transformations.scaling 2. 2. 2.) in
-        let pattern = Patterns.pattern_create (StripePattern (Color.white, Color.black)) in
+        let pattern = Patterns.pattern (StripePattern (Color.white, Color.black)) in
         let c = Patterns.stripe_at_object pattern s' (Tuple.point 1.5 0. 0.) in
         assert (Color.equals c Color.white)
     );
@@ -53,7 +53,7 @@ let tests = "Test Suite for Patterns" >::: [
     "Stripes with an pattern transformation" >::
     (fun _ ->
         let s = Shape.sphere in
-        let pattern = Patterns.pattern_create (StripePattern (Color.white, Color.black)) in
+        let pattern = Patterns.pattern (StripePattern (Color.white, Color.black)) in
         let pattern' = Patterns.set_transform pattern (Transformations.scaling 2. 2. 2.) in
         let c = Patterns.stripe_at_object pattern' s (Tuple.point 1.5 0. 0.) in
         assert (Color.equals c Color.white)
@@ -63,7 +63,7 @@ let tests = "Test Suite for Patterns" >::: [
     (fun _ ->
         let s = Shape.sphere in
         let s' = Shape.set_transform s (Transformations.scaling 2. 2. 2.) in
-        let pattern = Patterns.pattern_create (StripePattern (Color.white, Color.black)) in
+        let pattern = Patterns.pattern (StripePattern (Color.white, Color.black)) in
         let pattern' = Patterns.set_transform pattern (Transformations.translation 0.5 0. 0.) in
         let c = Patterns.stripe_at_object pattern' s' (Tuple.point 2.5 0. 0.) in
         assert (Color.equals c Color.white)
@@ -71,13 +71,13 @@ let tests = "Test Suite for Patterns" >::: [
 
     "The default pattern transformation" >::
     (fun _ ->
-        let pattern = Patterns.pattern_create TestPattern in
+        let pattern = Patterns.pattern TestPattern in
         assert (pattern.transform = Matrix.identity_matrix)
     );
 
     "Assigning a transformation" >::
     (fun _ ->
-        let pattern = Patterns.pattern_create TestPattern in
+        let pattern = Patterns.pattern TestPattern in
         let pattern' = Patterns.set_transform pattern (Transformations.translation 1. 2. 3.) in
         assert (pattern'.transform = Transformations.translation 1. 2. 3.)
     );
@@ -86,7 +86,7 @@ let tests = "Test Suite for Patterns" >::: [
     (fun _ ->
         let s = Shape.sphere in
         let s' = Shape.set_transform s (Transformations.scaling 2. 2. 2.) in
-        let pattern = Patterns.pattern_create TestPattern in
+        let pattern = Patterns.pattern TestPattern in
         let c = Patterns.stripe_at_object pattern s' (Tuple.point 2. 3. 4.) in
         assert (Color.equals c (Color.color 1. 1.5 2.))
     );
@@ -94,7 +94,7 @@ let tests = "Test Suite for Patterns" >::: [
     "Stripes with an pattern transformation" >::
     (fun _ ->
         let s = Shape.sphere in
-        let pattern = Patterns.pattern_create TestPattern in
+        let pattern = Patterns.pattern TestPattern in
         let pattern' = Patterns.set_transform pattern (Transformations.scaling 2. 2. 2.) in
         let c = Patterns.stripe_at_object pattern' s (Tuple.point 2. 3. 4.) in
         assert (Color.equals c (Color.color 1. 1.5 2.))
@@ -104,7 +104,7 @@ let tests = "Test Suite for Patterns" >::: [
     (fun _ ->
         let s = Shape.sphere in
         let s' = Shape.set_transform s (Transformations.scaling 2. 2. 2.) in
-        let pattern = Patterns.pattern_create TestPattern in
+        let pattern = Patterns.pattern TestPattern in
         let pattern' = Patterns.set_transform pattern (Transformations.translation 0.5 1. 1.5) in
         let c = Patterns.stripe_at_object pattern' s' (Tuple.point 2.5 3. 3.5) in
         assert (Color.equals c (Color.color 0.75 0.5 0.25))
@@ -112,7 +112,7 @@ let tests = "Test Suite for Patterns" >::: [
 
     "Gradient pattern colors" >::
     (fun _ ->
-        let pattern = Patterns.pattern_create (GradientPattern (Color.white, Color.black)) in
+        let pattern = Patterns.pattern (GradientPattern (Color.white, Color.black)) in
         match pattern.pattern_type with 
         | GradientPattern (a, b) ->
             assert (GradientPattern.local_stripe_at a b (Tuple.point 0. 0. 0.) = Color.white);
@@ -124,7 +124,7 @@ let tests = "Test Suite for Patterns" >::: [
 
     "Ring pattern colors" >::
     (fun _ ->
-        let pattern = Patterns.pattern_create (RingPattern (Color.white, Color.black)) in
+        let pattern = Patterns.pattern (RingPattern (Color.white, Color.black)) in
         match pattern.pattern_type with 
         | RingPattern (a, b) ->
             assert (RingPattern.local_stripe_at a b (Tuple.point 0. 0. 0.) = Color.white);
@@ -136,7 +136,7 @@ let tests = "Test Suite for Patterns" >::: [
 
     "Checkers pattern colors" >::
     (fun _ ->
-        let pattern = Patterns.pattern_create (CheckersPattern (Color.white, Color.black)) in
+        let pattern = Patterns.pattern (CheckersPattern (Color.white, Color.black)) in
         match pattern.pattern_type with 
         | CheckersPattern (a, b) ->
             assert (CheckersPattern.local_stripe_at a b (Tuple.point 0. 0. 0.) = Color.white);

@@ -5,3 +5,10 @@ let mod_positive x y =
 
 (* floor *)
 let floor x = int_of_float (Float.floor x)
+
+(* round to nearest integer *)
+let round f = int_of_float (Float.floor (f +. 0.5))
+
+
+let epsilon = 0.00001
+

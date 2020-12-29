@@ -68,7 +68,7 @@ let tests = "Test Suite for Transformations" >::: [
         (equalTuple (Matrix.multiply_tuple transform p) q)
     );
 
-    "Rotating a Tuple.point around the x axis" >::
+    "Rotating a Tuple.point aUtil.round the x axis" >::
     (fun _ ->
     let p = Tuple.point 0. 1. 0. in 
     let half_quarter = rotation_x (Float.pi /. 4.) in
@@ -91,7 +91,7 @@ let tests = "Test Suite for Transformations" >::: [
         (equalTuple (Matrix.multiply_tuple inv p) inv_hq_p)
     );
 
-    "Rotating a Tuple.point around the y axis" >::
+    "Rotating a Tuple.point aUtil.round the y axis" >::
     (fun _ ->
     let p = Tuple.point 0. 0. 1. in 
     let half_quarter = rotation_y (Float.pi /. 4.) in
@@ -104,7 +104,7 @@ let tests = "Test Suite for Transformations" >::: [
         (equalTuple (Matrix.multiply_tuple full_quarter p) fq_p)
     );
 
-    "Rotating a Tuple.point around the z axis" >::
+    "Rotating a Tuple.point aUtil.round the z axis" >::
     (fun _ ->
     let p = Tuple.point 0. 1. 0. in 
     let half_quarter = rotation_z (Float.pi /. 4.) in

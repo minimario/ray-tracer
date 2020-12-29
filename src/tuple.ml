@@ -10,8 +10,7 @@ let is_vector tuple = (tuple.w = 0.0)
 let is_point tuple = (tuple.w = 1.0)
 
 (* checking for equality *)
-let epsilon = 0.00001
-let float_equals a b = ((Float.abs (a-.b)) < epsilon)
+let float_equals a b = ((Float.abs (a-.b)) < Util.epsilon)
 let equals a b =
     float_equals a.x b.x && float_equals a.y b.y &&
     float_equals a.z b.z && float_equals a.w b.w
