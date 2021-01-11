@@ -43,7 +43,8 @@ let tests = "Test Suite for Reflections" >::: [
     assert (m.ambient = 0.1);
     assert (m.diffuse = 0.9);
     assert (m.specular = 0.9); 
-    assert (m.shininess = 200.0)
+    assert (m.shininess = 200.0);
+    assert (m.reflective = 0.0)
     );
 
     "A sphere has a default material" >::

@@ -16,7 +16,7 @@ let tests = "Test Suite for World" >::: [
 
 	let s1 = Shape.sphere
     	and (material: ShapeType.material) = {color=Color.color 0.8 1.0 0.6; ambient=0.1; diffuse=0.7;
-                   specular=0.2; shininess=200.0; pattern = None} in
+                   specular=0.2; shininess=200.0; pattern=None; reflective=0.0} in
     	let s1' = Shape.set_material s1 material in
 	assert_bool "outer sphere not found" (World.contains w s1');
 
@@ -186,6 +186,45 @@ let tests = "Test Suite for World" >::: [
 		assert (comps.over_point.z < -.Util.epsilon/.2.);
 		assert (comps.point.z > comps.over_point.z)
 	);
+
+    "Precomputing the reflection vector" >::
+    (fun _ ->
+		let shape = Shape.plane in
+		let i = Intersections.intersection (sqrt 2.) shape
+		and r = Rays.ray (Tuple.point 0. 0. ~-.5.) (Tuple.vector 0. (-.sqrt 2./.2.) (sqrt 2./.2.)) in
+		let comps = World.prepare_computations i r in
+		assert_bool "reflectv incorrect"
+			(Tuple.equals comps.reflectv (Tuple.vector 0. (sqrt 2./.2.) (sqrt 2./.2.)));
+    );
+
+    "The reflected color for a nonreflective material" >::
+    (fun _ ->
+		let w = World.default_world in
+		let s = List.nth w.objects 1 in
+		let shape = Shape.set_material s {s.material with ambient = 1.} in
+		let i = Intersections.intersection 1. shape
+		and r = Rays.ray (Tuple.point 0. 0. 0.) (Tuple.vector 0. 0. 1.) in
+		let comps = World.prepare_computations i r in
+		assert_bool "reflection should be black"
+			(Color.equals (World.reflected_color w comps) (Color.color 0. 0. 0.));
+    );
+
+    "The reflected color for a reflective material" >::
+    (fun _ ->
+		let world = World.default_world
+		and s = Shape.plane in
+		let s' = Shape.set_material s {s.material with reflective=0.5} in
+		let shape = Shape.set_transform s' (Transformations.translation 0. (-1.) 0.) in
+		let w = {world with objects=shape::world.objects} in
+		let i = Intersections.intersection (sqrt 2.) shape
+		and r = Rays.ray (Tuple.point 0. 0. (-3.)) (Tuple.vector 0. (-.sqrt 2./.2.) (sqrt 2./.2.)) in
+		let comps = World.prepare_computations i r in
+		let color = (World.reflected_color w comps) in
+		(* Printf.printf "%f %f %f" color.red color.green color.blue; *)
+		(* need more precision *)
+		assert_bool "reflected color incorrect"
+			(Color.equals color (Color.color 0.190332 0.237915 0.142749));
+    );
 ]	
 
 let _ = run_test_tt_main tests

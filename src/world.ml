@@ -20,7 +20,8 @@ type computations =  (* should probably be in intersections *)
      eyev: Tuple.tuple;
      normalv: Tuple.tuple;
      inside: bool;
-     over_point: Tuple.tuple
+     over_point: Tuple.tuple;
+     reflectv: Tuple.tuple;
     }
 
 let prepare_computations (intersection: Intersections.intersection) (ray: Rays.ray) =
@@ -31,6 +32,7 @@ let prepare_computations (intersection: Intersections.intersection) (ray: Rays.r
     let normalv = Shape.normal_at obj point in
     let adj_normalv = if Tuple.dot normalv eyev < 0. then Tuple.negate normalv else normalv in
     let over_point = Tuple.add point (Tuple.multiply_scalar adj_normalv Util.epsilon) in (* negate normal if hit on inside *)
+    let reflectv = Reflection.reflect ray.direction adj_normalv in
     let base_computation_object = (* object when hit is on outside *)
         {t=t; 
          comps_object=obj;
@@ -38,7 +40,9 @@ let prepare_computations (intersection: Intersections.intersection) (ray: Rays.r
          eyev=eyev;
          normalv=adj_normalv;
          inside=false;
-         over_point=over_point} in
+         over_point=over_point;
+         reflectv=reflectv;
+         } in
     if Tuple.dot normalv eyev < 0. then
         {base_computation_object with inside=true}
     else base_computation_object
@@ -77,3 +81,7 @@ let color_at world ray =
     | None -> Color.black
     | Some hit -> shade_hit world (prepare_computations hit ray)
 
+let reflected_color world comps =
+    let reflect_ray = Rays.ray comps.over_point comps.reflectv in
+    let color = color_at world reflect_ray in
+    Color.multiply_scalar color comps.comps_object.material.reflective
