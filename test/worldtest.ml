@@ -225,6 +225,50 @@ let tests = "Test Suite for World" >::: [
 		assert_bool "reflected color incorrect"
 			(Color.equals color (Color.color 0.190332 0.237915 0.142749));
     );
+
+	(* should change float comparison epsilon for these tests
+	given recursion limits on reflections *)
+    "shade_hit() with a reflective material" >::
+    (fun _ ->
+		let world = World.default_world
+		and s = Shape.plane in
+		let s' = Shape.set_material s {s.material with reflective=0.5} in
+		let shape = Shape.set_transform s' (Transformations.translation 0. (-1.) 0.) in
+		let w = {world with objects=shape::world.objects}
+		and i = Intersections.intersection (sqrt 2.) shape
+		and r = Rays.ray (Tuple.point 0. 0. (-3.)) (Tuple.vector 0. (-.sqrt 2./.2.) (sqrt 2./.2.)) in
+		let comps = World.prepare_computations i r in
+		let color = World.shade_hit w comps in
+		assert (Color.equals color (Color.color 0.876757 0.924340 0.829174));
+    );
+
+    "color_at() with a reflective surfaces" >::
+    (fun _ ->
+		let l = Shape.plane in
+		let l' = Shape.set_material l {l.material with reflective=1.} in
+		let lower = Shape.set_transform l' (Transformations.translation 0. (-1.) 0.)
+		and u = Shape.plane in
+		let u' = Shape.set_material u {u.material with reflective=1.} in
+		let upper = Shape.set_transform u' (Transformations.translation 0. 1. 0.)
+		and point_light = Reflection.point_light (Tuple.point 0. 0. 0.) (Color.color 1. 1. 1.) in
+		let w:World.world = {objects=[upper;lower]; light=Some point_light}
+		and r = Rays.ray (Tuple.point 0. 0. 0.) (Tuple.vector 0. 1. 0.) in
+		Printf.printf "%f" (World.color_at w r).red  (* Check it terminates *)
+    );
+
+    "The reflected color at the maximum recursive depth" >::
+    (fun _ ->
+		let world = World.default_world
+		and s = Shape.plane in
+		let s' = Shape.set_material s {s.material with reflective=0.5} in
+		let shape = Shape.set_transform s' (Transformations.translation 0. (-1.) 0.) in
+		let w = {world with objects=shape::world.objects}
+		and i = Intersections.intersection (sqrt 2.) shape
+		and r = Rays.ray (Tuple.point 0. 0. (-3.)) (Tuple.vector 0. (-.sqrt 2./.2.) (sqrt 2./.2.)) in
+		let comps = World.prepare_computations i r in
+		let color = World.reflected_color w comps ~remaining:0 in
+		assert (Color.equals color (Color.color 0. 0. 0.));
+    );
 ]	
 
 let _ = run_test_tt_main tests

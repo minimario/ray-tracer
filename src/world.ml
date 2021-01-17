@@ -63,9 +63,9 @@ let is_shadowed world point =
     | None -> false
     | Some hit -> hit.t < distance
 
-let shade_hit world comps = 
+let rec shade_hit ?(remaining=5) world comps = 
     let shadowed = is_shadowed world comps.over_point in
-    Reflection.lighting 
+    let surface = Reflection.lighting 
         comps.comps_object.material
         comps.comps_object
         (Option.get world.light)
@@ -73,15 +73,19 @@ let shade_hit world comps =
         comps.eyev
         comps.normalv
         shadowed
+    and reflected = reflected_color world comps ~remaining:remaining in
+    Color.add surface reflected
 
-let color_at world ray = 
+and color_at ?(remaining=5) world ray =
     let intersections = intersect_world world ray in
     let first_hit = Intersections.hit intersections in (* gets the hit from the intersection list *)
     match first_hit with 
     | None -> Color.black
-    | Some hit -> shade_hit world (prepare_computations hit ray)
+    | Some hit -> shade_hit world (prepare_computations hit ray) ~remaining:remaining
 
-let reflected_color world comps =
-    let reflect_ray = Rays.ray comps.over_point comps.reflectv in
-    let color = color_at world reflect_ray in
+and reflected_color ?(remaining=5) world comps =
+    match remaining < 1 with
+    | true -> Color.color 0. 0. 0.
+    | false -> let reflect_ray = Rays.ray comps.over_point comps.reflectv in
+    let color = color_at world reflect_ray ~remaining:(remaining-1) in
     Color.multiply_scalar color comps.comps_object.material.reflective
